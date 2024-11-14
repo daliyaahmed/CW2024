@@ -10,11 +10,18 @@ import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-public abstract class LevelParent extends Observable {
+//observer addition import
+
+
+
+public abstract class LevelParent  {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 50;
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
@@ -29,9 +36,9 @@ public abstract class LevelParent extends Observable {
 	private final List<ActiveActorDestructible> enemyUnits;
 	private final List<ActiveActorDestructible> userProjectiles;
 	private final List<ActiveActorDestructible> enemyProjectiles;
-	
+
 	private int currentNumberOfEnemies;
-	private LevelView levelView;
+	private final LevelView levelView;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -42,6 +49,7 @@ public abstract class LevelParent extends Observable {
 		this.enemyUnits = new ArrayList<>();
 		this.userProjectiles = new ArrayList<>();
 		this.enemyProjectiles = new ArrayList<>();
+
 
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -72,12 +80,18 @@ public abstract class LevelParent extends Observable {
 		background.requestFocus();
 		timeline.play();
 	}
-
+	//changed to property change
 	public void goToNextLevel(String levelName) {
-		setChanged();
-		notifyObservers(levelName);
+		pcs.firePropertyChange("level", null, levelName);
 	}
-
+	//added listener
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		pcs.addPropertyChangeListener(listener);
+	}
+	//added remove listener
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		pcs.removePropertyChangeListener(listener);
+	}
 	private void updateScene() {
 		spawnEnemyUnits();
 		updateActors();
@@ -171,7 +185,7 @@ public abstract class LevelParent extends Observable {
 	}
 
 	private void handleCollisions(List<ActiveActorDestructible> actors1,
-			List<ActiveActorDestructible> actors2) {
+								  List<ActiveActorDestructible> actors2) {
 		for (ActiveActorDestructible actor : actors2) {
 			for (ActiveActorDestructible otherActor : actors1) {
 				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
@@ -181,15 +195,23 @@ public abstract class LevelParent extends Observable {
 			}
 		}
 	}
+	//updated code for better enemy penetration
+	private long lastDamageTime = 0;
+	private static final long DAMAGE_COOLDOWN = 2000; // 2 seconds
 
 	private void handleEnemyPenetration() {
+		long currentTime = System.currentTimeMillis();
 		for (ActiveActorDestructible enemy : enemyUnits) {
 			if (enemyHasPenetratedDefenses(enemy)) {
-				user.takeDamage();
+				if (currentTime - lastDamageTime > DAMAGE_COOLDOWN) {
+					user.takeDamage();
+					lastDamageTime = currentTime;
+				}
 				enemy.destroy();
 			}
 		}
 	}
+	//until here
 
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());
@@ -249,3 +271,4 @@ public abstract class LevelParent extends Observable {
 	}
 
 }
+
