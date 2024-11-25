@@ -21,6 +21,11 @@ public abstract class LevelParent  {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 50;
+	//updated code for better enemy penetration
+	//added two variables lastDamageTime and DAMAGE_COOLDOWN to avoid system errors while playing the game
+	private long lastDamageTime = 0;
+	private static final long DAMAGE_COOLDOWN = 2000; // 2 seconds
+	//until here
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private final double screenHeight;
 	private final double screenWidth;
@@ -195,9 +200,8 @@ public abstract class LevelParent  {
 			}
 		}
 	}
-	//updated code for better enemy penetration
-	private long lastDamageTime = 0;
-	private static final long DAMAGE_COOLDOWN = 2000; // 2 seconds
+
+
 
 	private void handleEnemyPenetration() {
 		long currentTime = System.currentTimeMillis();
@@ -209,6 +213,11 @@ public abstract class LevelParent  {
 				}
 				enemy.destroy();
 			}
+		}
+		//new code
+		// Check if user health has fully depleted before losing the game
+		if (user.getHealth() <= 0) {
+			loseGame();
 		}
 	}
 	//until here
