@@ -12,7 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.LevelParent;
+import com.example.demo.levels.LevelParent;
+import com.example.demo.ui.FullScreenHandler; // import FullScreenHandler
 /**
  * The {@code Controller} class is responsible for managing the game flow,
  * including navigating between different game levels and responding to property changes.
@@ -23,9 +24,10 @@ import com.example.demo.LevelParent;
 public class Controller implements PropertyChangeListener{
 
 	//variable for level one
-	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
+	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.levels.LevelOne";
 	//variable of stage
 	private final Stage stage;
+	private final FullScreenHandler fullScreenHandler;
 
 
 	/**
@@ -35,6 +37,7 @@ public class Controller implements PropertyChangeListener{
 	 */
 	public Controller(Stage stage) {
 		this.stage = stage;
+		this.fullScreenHandler = new FullScreenHandler(stage); // initialize FullScreenHandler
 	}
 
 	/**
@@ -50,8 +53,12 @@ public class Controller implements PropertyChangeListener{
 	 */
 	public void launchGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
-		    stage.setMaximized(true); // Set the main menu screen to be maximized
+
+		// Use FullScreenHandler to set the main menu screen to be full-screen
+		fullScreenHandler.setFullScreen();
+		fullScreenHandler.enableFullScreenMode();
 			stage.show();
+		System.out.println("Launching game...");
 			goToLevel(LEVEL_ONE_CLASS_NAME);
 	}
 
@@ -70,8 +77,8 @@ public class Controller implements PropertyChangeListener{
 	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
+			Constructor<?> constructor = myClass.getConstructor(double.class, double.class,Stage.class);
+			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth(), stage);
 			// Add the controller as a PropertyChangeListener
 			myLevel.addPropertyChangeListener( this);
 			Scene scene = myLevel.initializeScene();

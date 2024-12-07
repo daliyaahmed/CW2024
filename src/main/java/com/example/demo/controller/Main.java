@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.lang.reflect.InvocationTargetException;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -12,7 +14,7 @@ import javafx.stage.Stage;
  * @author Daliya Safdar Ahmed
  */
 
-public class Main extends Application {
+public class  Main extends Application {
 
 	// Constants for screen dimensions and title
 	private static final int SCREEN_WIDTH = 1500;
@@ -47,7 +49,6 @@ public class Main extends Application {
 	 *
 	 * @return the title of the application
 	 */
-
 	public static String getTITLE() {
 		return TITLE;
 	}
@@ -82,7 +83,6 @@ public class Main extends Application {
 	 *
 	 * @param args command-line arguments passed to the application
 	 */
-
 	public static void main(String[] args) {
 		launch();
 	}
@@ -102,7 +102,6 @@ public class Main extends Application {
 	 *
 	 * @param myController the {@code Controller} to manage the game
 	 */
-
 	public void setMyController(Controller myController) {
 		this.myController = myController;
 	}

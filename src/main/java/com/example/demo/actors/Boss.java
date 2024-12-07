@@ -1,4 +1,7 @@
-package com.example.demo;
+package com.example.demo.actors;
+
+import com.example.demo.projectiles.BossProjectile;
+import com.example.demo.ui.ShieldImage;
 
 import java.util.*;
 
@@ -77,6 +80,9 @@ public class Boss extends FighterPlane {
 		}
 	}
 
+	public int getBossHealth(){
+		return HEALTH;
+	}
 	private void initializeMovePattern() {
 		for (int i = 0; i < MOVE_FREQUENCY_PER_CYCLE; i++) {
 			movePattern.add(VERTICAL_VELOCITY);

@@ -1,6 +1,9 @@
-package com.example.demo;
+package com.example.demo.actors;
 
 
+import com.example.demo.projectiles.UserProjectile;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class UserPlane extends FighterPlane {
 
@@ -10,9 +13,10 @@ public class UserPlane extends FighterPlane {
 	private static final double INITIAL_X_POSITION = 5.0;
 	private static final double INITIAL_Y_POSITION = 300.0;
 	private static final int IMAGE_HEIGHT = 50;
-	private static final int VERTICAL_VELOCITY = 8;
+	private static  int VERTICAL_VELOCITY = 8;
 	private static final int PROJECTILE_X_POSITION = 110;
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
+	private boolean isPowerUpActive = false;
 	private int velocityMultiplier;
 	private int numberOfKills;
 
@@ -32,7 +36,30 @@ public class UserPlane extends FighterPlane {
 			}
 		}
 	}
-	
+	public void activatePowerUp() {
+		if (isPowerUpActive) {
+			return; // Ignore if already active
+		}
+
+		isPowerUpActive = true;
+
+		// max out the velocity
+
+		VERTICAL_VELOCITY = 100;
+
+
+		// Grace period ends after 10 seconds
+		PauseTransition powerUpTimer = new PauseTransition(Duration.seconds(20));
+		powerUpTimer.setOnFinished(event -> {
+			VERTICAL_VELOCITY = 8;; // Reset velocity
+			isPowerUpActive = false;
+		});
+		powerUpTimer.play();
+	}
+
+	public double getImgHeight() {
+		return IMAGE_HEIGHT;
+	}
 	@Override
 	public void updateActor() {
 		updatePosition();
@@ -42,7 +69,6 @@ public class UserPlane extends FighterPlane {
 	public ActiveActorDestructible fireProjectile() {
 		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 	}
-
 	private boolean isMoving() {
 		return velocityMultiplier != 0;
 	}
