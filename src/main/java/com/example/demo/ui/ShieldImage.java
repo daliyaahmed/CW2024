@@ -24,7 +24,7 @@ public class ShieldImage extends ImageView {
 		if (!isShieldOn) {
 			isShieldOn = true;
 			this.setVisible(true); // Show shield
-			System.out.println("Shield Position(in shield image class): " + getLayoutX() + ", " + getLayoutY());
+			//System.out.println("Shield Position(in shield image class): " + getLayoutX() + ", " + getLayoutY());
 		}
 
 
@@ -42,7 +42,7 @@ public class ShieldImage extends ImageView {
 	public void updatePosition(double xPosition, double yPosition) {
 		setLayoutX(xPosition);
 		setLayoutY(yPosition);
-		System.out.println("Shield Position Updated(Shield Image class): " + getLayoutX() + ", " + getLayoutY());
+		//System.out.println("Shield Position Updated(Shield Image class): " + getLayoutX() + ", " + getLayoutY());
 
 	}
 
