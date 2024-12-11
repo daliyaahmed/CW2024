@@ -1,19 +1,26 @@
 package com.example.demo.levels;
 
+//import java.applet.AudioClip;
 import java.util.*;
 
-import com.example.demo.Collision;
-import com.example.demo.ui.PauseMenu;
+import com.example.demo.physics.Collision;
+import com.example.demo.levels.views.LevelView;
+import com.example.demo.levels.views.LevelViewLevelFour;
+import com.example.demo.levels.views.LevelViewLevelThree;
+import com.example.demo.menus.PauseMenuState;
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.FighterPlane;
 import com.example.demo.actors.UserPlane;
+import com.example.demo.menus.RestartWindow;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.beans.PropertyChangeListener;
@@ -36,6 +43,7 @@ public abstract class LevelParent  {
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
+    private final AudioClip fireSound = new AudioClip(getClass().getResource("/com/example/demo/sounds/shoot.wav").toExternalForm());
 
 	private final Group root;
 	private final Timeline timeline;
@@ -44,10 +52,11 @@ public abstract class LevelParent  {
 	private final ImageView background;
 	private final Collision collision;
 	// In LevelParent constructor
-	private PauseMenu pauseMenu;
+	private PauseMenuState pauseMenuState;
 	// Add a Stage variable to keep track of the main window stage
 	// Store the Stage instance in LevelParent
 	private final Stage stage;
+	public final AudioClip backgroundSound = new AudioClip(getClass().getResource("/com/example/demo/sounds/background.wav").toExternalForm());
 
 	private final List<ActiveActorDestructible> friendlyUnits;
 	public final List<ActiveActorDestructible> enemyUnits;
@@ -55,6 +64,7 @@ public abstract class LevelParent  {
 	public final List<ActiveActorDestructible> enemyProjectiles;
 	private final List<FighterPlane> fighterPlanes;
 	private final LevelViewLevelThree levelViewLevelThree;
+	private final LevelViewLevelFour levelViewLevelFour;
 	private int currentNumberOfEnemies;
 	private final LevelView levelView;
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth,  Stage stage) {
@@ -86,7 +96,7 @@ public abstract class LevelParent  {
 					screenWidth
 			);
 			// Initialize PauseMenu
-			this.pauseMenu = new PauseMenu(
+			this.pauseMenuState = new PauseMenuState(
 					root,
 					timeline,
 					screenWidth,
@@ -95,6 +105,7 @@ public abstract class LevelParent  {
 					stage
 			);
 			this.levelViewLevelThree = new LevelViewLevelThree(root,5);
+			this.levelViewLevelFour = new LevelViewLevelFour(root,10);
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -118,7 +129,10 @@ public abstract class LevelParent  {
 	//changed to property change
 	public void goToNextLevel(String levelName) {
 		pcs.firePropertyChange("level", null, levelName);
+		System.out.println("Transitioning to next level: " + levelName);
 	}
+
+
 	//added listener
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
@@ -131,6 +145,7 @@ public abstract class LevelParent  {
 		spawnEnemyUnits();
 		// Add PowerUp button and counter to the root
 		levelViewLevelThree.addPowerUpElementsToRoot();
+		levelViewLevelFour.addPowerUpElementsToRoot();
 		updateActors();
 		generateEnemyFire();
 		updateNumberOfEnemies();
@@ -171,11 +186,13 @@ public abstract class LevelParent  {
 		});
 		root.getChildren().add(background);
 		// Replace the pause button creation in initializeBackground
-		Button pauseButton = pauseMenu.createPauseButton();
+		Button pauseButton = pauseMenuState.createPauseButton();
 		root.getChildren().add(pauseButton);
 	}
 
 	private void fireProjectile() {
+		// Play sound effect
+		fireSound.play();
 		ActiveActorDestructible projectile = user.fireProjectile();
 		root.getChildren().add(projectile);
 		userProjectiles.add(projectile);
@@ -242,6 +259,19 @@ public abstract class LevelParent  {
 	protected void winGame() {
 		timeline.stop();
 		levelView.showWinImage();
+		backgroundSound.stop();
+		// Add a delay of 10 seconds before showing the restart options
+		new Thread(() -> {
+			try {
+				Thread.sleep(10000); // Delay in milliseconds
+				Platform.runLater(() -> {
+					RestartWindow restartWindow = new RestartWindow(stage,this);
+					restartWindow.showRestartOptions();
+				});
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 	protected void loseGame() {

@@ -16,8 +16,10 @@ public abstract class FighterPlane extends ActiveActorDestructible {
 	@Override
 	public void takeDamage() {
 		health--;
-		if (healthAtZero()) {
+		System.out.println(this.getClass().getSimpleName() + " health: " + health);
+		if (healthAtZero() && !isDestroyed() ) {
 			this.destroy();
+			System.out.println(this.getClass().getSimpleName() + " is destroyed!");
 		}
 	}
 
@@ -30,7 +32,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
 	}
 
 	private boolean healthAtZero() {
-		return health == 0;
+		return health <= 0;
 	}
 
 	public int getHealth() {

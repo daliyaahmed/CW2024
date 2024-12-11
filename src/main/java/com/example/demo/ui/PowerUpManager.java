@@ -2,6 +2,7 @@ package com.example.demo.ui;
 
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -32,18 +33,18 @@ public class PowerUpManager {
 
             // Create PowerUp button
             powerUpButton = new ImageView(powerUpImage);
-            powerUpButton.setFitWidth(50);
-            powerUpButton.setFitHeight(50);
+            powerUpButton.setFitWidth(70);
+            powerUpButton.setFitHeight(60);
             powerUpButton.setX(POWERUP_BUTTON_X);
             powerUpButton.setY(POWERUP_BUTTON_Y);
 
             // Create PowerUp counter
-            powerUpCounterText = new Text("x" + remainingPowerUps);
+            powerUpCounterText = new Text("x" + remainingPowerUps + " ");
             powerUpCounterText.setX(POWERUP_COUNTER_X);
-            powerUpCounterText.setY(POWERUP_BUTTON_Y + 30);
+            powerUpCounterText.setY(POWERUP_BUTTON_Y + 40);
             powerUpCounterText.setFill(Color.WHITE);
-            powerUpCounterText.setStyle("-fx-font-size: 20px;");
-
+            powerUpCounterText.setStyle("-fx-font-size: 40px;");
+            powerUpCounterText.setFont(Font.loadFont(getClass().getResourceAsStream("/com/example/demo/fonts/astroz.regular.ttf"), 30));
             // Add to root
             root.getChildren().addAll(powerUpButton, powerUpCounterText);
         } catch (Exception e) {
@@ -73,7 +74,7 @@ public class PowerUpManager {
 
     private void updatePowerUpCounter() {
         if (powerUpCounterText != null) {
-            powerUpCounterText.setText("x" + remainingPowerUps);
+            powerUpCounterText.setText("x" + remainingPowerUps + " ");
 
             // Disable button if no power-ups left
             if (remainingPowerUps == 0) {

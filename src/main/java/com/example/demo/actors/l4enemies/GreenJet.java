@@ -1,0 +1,91 @@
+package com.example.demo.actors.l4enemies;
+
+import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.FighterPlane;
+import com.example.demo.projectiles.GreenJetProjectile;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+
+public class GreenJet extends FighterPlane {
+
+    private static final String IMAGE_NAME = "GreenJetL4.png";
+    private static final int IMAGE_HEIGHT = 100;
+    private static final int HORIZONTAL_VELOCITY = -12;
+    private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
+    private static final double PROJECTILE_Y_POSITION_OFFSET = 50.0;
+    private static final int INITIAL_HEALTH = 1;
+    private static final double FIRE_RATE = .01;
+    private static final int VERTICAL_VELOCITY = 6;
+    private static final int ZERO = 0;
+    private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
+    private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
+    private double upperBound;
+    private double lowerBound;
+    private boolean movingUp = true;
+    private List<Integer> movePattern;
+    private int indexOfCurrentMove;
+    private int consecutiveMovesInSameDirection;
+
+    public GreenJet(double initialXPos, double initialYPos) {
+        super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH);
+        initializeMovePattern();
+    }
+    public void setMoveUpDownBounds(double upper, double lower) {
+        this.upperBound = upper;
+        this.lowerBound = lower;
+    }
+    @Override
+    public void updatePosition() {
+        // Calculate the new Y position
+        double newY = getTranslateY() + (movingUp ? -VERTICAL_VELOCITY : VERTICAL_VELOCITY);
+
+        // Check if the new position is within bounds
+        if (newY < upperBound) {
+            newY = upperBound; // Reset to upper bound
+            movingUp = false;  // Change direction to down
+        } else if (newY > lowerBound) {
+            newY = lowerBound; // Reset to lower bound
+            movingUp = true;   // Change direction to up
+        }
+
+        // Update the jet's position
+        setTranslateY(newY);
+    }
+
+    private void initializeMovePattern() {
+        movePattern = new ArrayList<>();
+        for (int i = 0; i < MOVE_FREQUENCY_PER_CYCLE; i++) {
+            movePattern.add(VERTICAL_VELOCITY);
+            movePattern.add(-VERTICAL_VELOCITY);
+            movePattern.add(ZERO);
+        }
+        Collections.shuffle(movePattern);
+        indexOfCurrentMove = 0;
+        consecutiveMovesInSameDirection = 0;
+    }
+
+
+
+
+    @Override
+    public ActiveActorDestructible fireProjectile() {
+        if (Math.random() < FIRE_RATE) {
+            double projectileXPosition = getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
+            double projectileYPostion = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+            return new GreenJetProjectile(projectileXPosition, projectileYPostion);
+        }
+        return null;
+    }
+    @Override
+    public void takeDamage() {
+        super.takeDamage();
+    }
+    @Override
+    public void updateActor() {
+        updatePosition();
+    }
+
+}
