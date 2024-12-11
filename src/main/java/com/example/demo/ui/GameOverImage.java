@@ -16,5 +16,4 @@ public class GameOverImage extends ImageView {
 		Scale scale = new Scale(0.5, 0.5);
 		getTransforms().add(scale);
 	}
-
 }

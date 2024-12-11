@@ -4,7 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -19,6 +23,7 @@ public class  Main extends Application {
 	// Constants for screen dimensions and title
 	private static final int SCREEN_WIDTH = 1500;
 	private static final int SCREEN_HEIGHT = 800;
+	public final AudioClip backgroundSound = new AudioClip(getClass().getResource("/com/example/demo/sounds/background.wav").toExternalForm());
 	private static final String TITLE = "Sky Battle";
 
 	// Instance variable to hold the game controller
@@ -74,6 +79,9 @@ public class  Main extends Application {
 		stage.setResizable(true);
 		stage.setHeight(getScreenHeight());
 		stage.setWidth(getScreenWidth());
+		// Set the cycle count to INDEFINITE to loop the sound
+		backgroundSound.setCycleCount(MediaPlayer.INDEFINITE);
+		backgroundSound.play();
 		// Show main menu
 		MainMenu mainMenu = new MainMenu(stage);
 		mainMenu.showMenu();

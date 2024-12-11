@@ -57,7 +57,7 @@ public class Boss extends FighterPlane {
 		}
 		if (isShielded) {
 			shieldImage.updatePosition(getLayoutX(), getLayoutY()); // Update shield position
-			System.out.println("Shield Position Updated(BOSS class): " + getLayoutX() + ", " + getLayoutY());
+
 		}
 	}
 	

@@ -1,7 +1,9 @@
 package com.example.demo.levels;
 
 import com.example.demo.actors.ActiveActorDestructible;
-import com.example.demo.actors.EnemyPlane;
+import com.example.demo.actors.l1EnemyPlane;
+import com.example.demo.levels.banners.LevelOneBanner;
+import com.example.demo.levels.views.LevelView;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -35,7 +37,14 @@ public class LevelOne extends LevelParent {
 			levelTransitioned = true;
 
 			System.out.println("change to level 2");
-			goToNextLevel(NEXT_LEVEL);
+			try {
+				LevelParent nextLevel = new LevelTwo(getScreenHeight(), getScreenWidth(), getStage());
+				getStage().setScene(nextLevel.initializeScene());
+				nextLevel.startGame();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
 	@Override
@@ -65,7 +74,7 @@ public class LevelOne extends LevelParent {
 		for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY ) {
 				double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
-				ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
+				ActiveActorDestructible newEnemy = new l1EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
 				addEnemyUnit(newEnemy);
 			}
 		}
@@ -73,7 +82,7 @@ public class LevelOne extends LevelParent {
 
 	@Override
 	protected LevelView instantiateLevelView() {
-		return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);
+		return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH, true);
 	}
 	private boolean userHasReachedKillTarget() {
 		return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;

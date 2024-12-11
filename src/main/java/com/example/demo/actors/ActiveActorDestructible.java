@@ -1,9 +1,9 @@
 package com.example.demo.actors;
 
-import com.example.demo.Destructible;
+
 import com.example.demo.actors.ActiveActor;
 
-public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
+public abstract class ActiveActorDestructible extends ActiveActor  {
 
 	private boolean isDestroyed;
 
@@ -17,20 +17,20 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
 
 	public abstract void updateActor();
 
-	@Override
+
 	public abstract void takeDamage();
 
-	@Override
+
 	public void destroy() {
 		setDestroyed(true);
 	}
 
+	public void notDestroy(){setDestroyed(false);}
 	protected void setDestroyed(boolean isDestroyed) {
 		this.isDestroyed = isDestroyed;
 	}
-
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
-	
+
 }
