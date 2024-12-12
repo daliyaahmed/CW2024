@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.ui.FullScreenHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,33 +11,39 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
-
+/**
+ * The {@code MainMenu} class responsible for displaying the main menu of the application.
+ * The menu includes buttons for Play, Guide to Play, and Quit functionalities.
+ */
 public class MainMenu {
 
     private final Stage stage;
     private final FullScreenHandler fullScreenHandler;
     private static final String BACKGROUND_MAIN_MENU = "/com/example/demo/images/mainscreen.png";
 
+    /**
+     * Constructor for  {@code MainMenu} .
+     *
+     * @param stage The primary stage for the JavaFX application.
+     */
     public MainMenu(Stage stage) {
         this.stage = stage;
-        this.fullScreenHandler = new FullScreenHandler(stage); // initialize FullScreenHandler
+        this.fullScreenHandler = new FullScreenHandler(stage); // Initialize FullScreenHandler
     }
 
-
+    /**
+     * Displays the main menu with options for Play, Guide to Play, and Quit.
+     */
     public void showMenu() {
 
-
         // Load background image
-        Image backgroundImage = new Image(getClass().getResource("/com/example/demo/images/mainscreen.png").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource(BACKGROUND_MAIN_MENU).toExternalForm());
         ImageView backgroundImageView = new ImageView(backgroundImage);
 
         // Bind the image size to the stage dimensions to ensure it resizes dynamically
@@ -50,7 +55,6 @@ public class MainMenu {
         fullScreenHandler.setFullScreen();
         fullScreenHandler.enableFullScreenMode();
 
-
         // Create buttons
         Button playButton = createNeonButton("PLAY", Color.CYAN);
         Button guideButton = createNeonButton("GUIDE TO PLAY", Color.LIME);
@@ -61,34 +65,38 @@ public class MainMenu {
         guideButton.setOnAction(e -> showGuide());
         quitButton.setOnAction(e -> stage.close());
 
-
-
         // Create layout for buttons
         VBox buttonLayout = new VBox(20); // Main button layout
         buttonLayout.getChildren().addAll(playButton, guideButton, quitButton);
         buttonLayout.setAlignment(Pos.BOTTOM_CENTER);
-        buttonLayout.setPadding(new Insets(0, 0, 100, 0)); // Padding to align buttons properly at the bottom of the screen
-
+        buttonLayout.setPadding(new Insets(0, 0, 100, 0));
 
         // Create root layout
         StackPane root = new StackPane();
         root.getChildren().addAll(backgroundImageView, buttonLayout);
         StackPane.setAlignment(buttonLayout, Pos.BOTTOM_CENTER);
-        buttonLayout.setPadding(new Insets(0, 0, 30, 0)); // Padding from the bottom
-        StackPane.setMargin(buttonLayout, new Insets(50, 0, 50, 0)); // Adjust margin from the bottom for better spacing
+        buttonLayout.setPadding(new Insets(0, 0, 30, 0));
+        StackPane.setMargin(buttonLayout, new Insets(50, 0, 50, 0));
 
         // Set scene
         Scene scene = new Scene(root, FullScreenHandler.SCREEN_WIDTH, FullScreenHandler.SCREEN_HEIGHT);
         stage.setScene(scene);
-        stage.setFullScreen(true);  // Ensure full-screen mode is re-enabled.
+        stage.setFullScreen(true); // Ensure full-screen mode is re-enabled.
         stage.show();
     }
 
+    /**
+     * Creates a button with a neon effect.
+     *
+     * @param text      The text to display on the button.
+     * @param neonColor The neon color for the button.
+     * @return The styled button with a neon effect.
+     */
     private Button createNeonButton(String text, Color neonColor) {
         Button button = new Button(text);
         button.setFont(Font.loadFont(getClass().getResourceAsStream("/com/example/demo/fonts/astroz.regular.ttf"), 30));
         button.setTextFill(Color.WHITE);
-        button.setStyle("-fx-background-color: " + toHexString(neonColor) + "; -fx-padding: 10 20 10 20; -fx-border-color: " + toHexString(neonColor) + "; -fx-border-width: 3; -fx-border-radius: 15; ");
+        button.setStyle("-fx-background-color: " + toHexString(neonColor) + "; -fx-padding: 10 20 10 20; -fx-border-color: " + toHexString(neonColor) + "; -fx-border-width: 3; -fx-border-radius: 15;");
 
         // Creating neon light effect
         DropShadow neonShadow = new DropShadow();
@@ -115,11 +123,19 @@ public class MainMenu {
         return button;
     }
 
-
+    /**
+     * Converts a Color object to its hexadecimal string representation.
+     *
+     * @param color The Color object.
+     * @return The hexadecimal string representation of the color.
+     */
     private String toHexString(Color color) {
         return String.format("#%02X%02X%02X", (int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
     }
 
+    /**
+     * Launches the game by initializing the Controller.
+     */
     private void launchGame() {
         try {
             Controller controller = new Controller(stage);
@@ -129,9 +145,10 @@ public class MainMenu {
         }
     }
 
+    /**
+     * Displays the guide to play with detailed instructions.
+     */
     private void showGuide() {
-        // You can create a new scene or alert for the guide.
-        System.out.println("Guide to play coming soon...");
         // Create a semi-transparent overlay
         StackPane overlay = new StackPane();
         overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
@@ -183,13 +200,9 @@ public class MainMenu {
                 createInstructionText(" jets.\n")
         );
 
-
         // Back to Main Menu Button
         Button backButton = createNeonButton("BACK TO MAIN MENU", Color.GOLD);
-        backButton.setOnAction(e -> {
-            // Return to the main menu
-            showMenu();
-        });
+        backButton.setOnAction(e -> showMenu());
 
         // Add all elements to the guide layout
         guideLayout.getChildren().addAll(guideTitle, instructions, backButton);
@@ -203,14 +216,26 @@ public class MainMenu {
         stage.setFullScreen(true);
         stage.show();
     }
-    // Helper method for regular text
+
+    /**
+     * Helper method for creating regular instructional text.
+     *
+     * @param text The text to display.
+     * @return A styled Text node for regular instructions.
+     */
     private Text createInstructionText(String text) {
         Text instruction = new Text(text);
         instruction.setFont(Font.loadFont(getClass().getResourceAsStream("/com/example/demo/fonts/astroz.regular.ttf"), 30));
         instruction.setFill(Color.WHITE);
         return instruction;
     }
-    // Helper method for key terms
+
+    /**
+     * Helper method for creating styled key terms in instructions.
+     *
+     * @param text The key term to highlight.
+     * @return A styled Text node for key terms.
+     */
     private Text createKeyText(String text) {
         Text keyText = new Text(text);
         keyText.setFont(Font.loadFont(getClass().getResourceAsStream("/com/example/demo/fonts/astroz.regular.ttf"), 30));

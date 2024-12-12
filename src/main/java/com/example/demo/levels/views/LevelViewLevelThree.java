@@ -1,65 +1,66 @@
 package com.example.demo.levels.views;
+
 import com.example.demo.ui.PowerUpManager;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
+/**
+ * The {@code LevelViewLevelThree} class represents the view for Level Three of the game,
+ * including power-up elements like a power-up button and counter display.
+ */
 public class LevelViewLevelThree extends LevelView {
 
-    private static final String POWER_UP_BUTTON = "/com/example/demo/images/powerUp.png";
-    private static final double POWERUP_BUTTON_X_POSITION = 1120; // Adjust based on your layout
-    private static final double POWERUP_BUTTON_Y_POSITION = 75;
-    private static final double POWERUP_COUNTER_X_POSITION = 40; // Left of the button
-    private static final double POWERUP_COUNTER_Y_POSITION = 25;
-
-    //private Button powerUpButton;
-    private Text powerUpCounter;
-    // PowerUp related fields
+    /**
+     * The image view representing the power-up button.
+     */
     private ImageView powerUpButton;
 
+    /**
+     * The text display for the power-up counter.
+     */
     private Text powerUpCounterText;
-    private PowerUpManager powerUpManager;
-    private int remainingPowerUps = 3; // Total number of power-ups
 
+    /**
+     * The manager handling power-up logic.
+     */
+    private PowerUpManager powerUpManager;
+
+    /**
+     * The total number of power-ups available.
+     */
+    private int remainingPowerUps = 3;
+
+    /**
+     * Constructs a new {@code LevelViewLevelThree} instance.
+     *
+     * @param root            the root group to which elements will be added
+     * @param heartsToDisplay the number of hearts to display on the screen
+     */
     public LevelViewLevelThree(Group root, int heartsToDisplay) {
         super(root, heartsToDisplay, true);
-
-
     }
 
-
-
-    public ImageView getPowerUpButton() {
-        return powerUpButton;
-    }
-    public boolean hasPowerUpsRemaining() {
-        return remainingPowerUps > 0;
-    }
-
-    public void decrementPowerUpCounter() {
-        if (remainingPowerUps > 0) {
-            remainingPowerUps--;
-            powerUpCounter.setText("x" + remainingPowerUps);
-            if (remainingPowerUps == 0) {
-                powerUpButton.setDisable(true); // Disable when no power-ups left
+    /**
+     * Adds the power-up elements (button and counter) to the root group.
+     * Ensures the elements are not added multiple times.
+     */
+    public void addPowerUpElementsToRoot() {
+        if (powerUpButton != null) {
+            if (!root.getChildren().contains(powerUpButton)) {
+                root.getChildren().addAll(powerUpButton, powerUpCounterText);
+                System.out.println("PowerUp button added to root");
+            } else {
+                System.out.println("PowerUp button already in root");
             }
         }
     }
-    public void addPowerUpElementsToRoot() {
 
-            if (powerUpButton != null) {
-                if (!root.getChildren().contains(powerUpButton)) {
-                    root.getChildren().addAll(powerUpButton, powerUpCounterText);
-                    System.out.println("PowerUp button added to root");
-                } else {
-                    System.out.println("PowerUp button already in root");
-                }
-            }
-
-    }
-
-
-
+    /**
+     * Gets the text display for the power-up counter.
+     *
+     * @return the {@code Text} representing the power-up counter
+     */
     public Text getPowerUpCounterText() {
         return powerUpCounterText;
     }

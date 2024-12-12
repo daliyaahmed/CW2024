@@ -1,11 +1,7 @@
 package com.example.demo.menus;
 
-
-
-import com.example.demo.controller.Controller;
 import com.example.demo.levels.*;
 import com.example.demo.ui.FullScreenHandler;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,26 +13,35 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Random;
 
+/**
+ * The {@code RestartWindow} class handles the display of the game-over screen,
+ * allowing players to restart levels or quit the game.
+ */
 public class RestartWindow {
 
     private LevelParent levelParent;
     private final Stage stage;
-    private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.levels.LevelOne";
-    private static final String LEVEL_TWO_CLASS_NAME = "com.example.demo.levels.LevelTwo";
-    private static final String LEVEL_THREE_CLASS_NAME = "com.example.demo.levels.LevelThree";
-    private static final String LEVEL_FOUR_CLASS_NAME = "com.example.demo.levels.LevelFour";
 
+    /**
+     * Constructs a new {@code RestartWindow}.
+     *
+     * @param stage       the primary {@code Stage} of the application
+     * @param levelParent the current {@code LevelParent} instance
+     */
     public RestartWindow(Stage stage, LevelParent levelParent) {
         this.stage = stage;
         this.levelParent = levelParent;
     }
 
+    /**
+     * Displays the restart options to the player, including buttons for restarting levels
+     * or quitting the game.
+     */
     public void showRestartOptions() {
         // Create a semi-transparent overlay
         StackPane overlay = new StackPane();
@@ -100,6 +105,14 @@ public class RestartWindow {
         stage.setFullScreen(true);
         stage.show();
     }
+
+    /**
+     * Creates a {@code Canvas} with random blood splatter effects for the background.
+     *
+     * @param width  the width of the canvas
+     * @param height the height of the canvas
+     * @return a {@code Canvas} with blood splatter effects
+     */
     private Canvas createBloodSplatterCanvas(double width, double height) {
         Canvas canvas = new Canvas(width, height);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -117,6 +130,14 @@ public class RestartWindow {
         return canvas;
     }
 
+    /**
+     * Draws a blood splatter effect on the {@code GraphicsContext}.
+     *
+     * @param gc     the {@code GraphicsContext} to draw on
+     * @param x      the x-coordinate of the splatter center
+     * @param y      the y-coordinate of the splatter center
+     * @param radius the radius of the splatter
+     */
     private void drawBloodSplatter(GraphicsContext gc, double x, double y, double radius) {
         gc.setFill(Color.DARKRED);
         gc.setGlobalAlpha(0.8); // Semi-transparent blood
@@ -133,14 +154,17 @@ public class RestartWindow {
         }
     }
 
+    /**
+     * Loads the specified level dynamically.
+     *
+     * @param levelClass the {@code Class} of the level to load
+     */
     private void loadLevel(Class<? extends LevelParent> levelClass) {
         try {
-            // Dynamically create a level instance
             LevelParent level = levelClass
                     .getConstructor(double.class, double.class, Stage.class)
                     .newInstance(FullScreenHandler.SCREEN_HEIGHT, FullScreenHandler.SCREEN_WIDTH, stage);
 
-            // Initialize and start the level
             stage.setScene(level.initializeScene());
             level.startGame();
         } catch (Exception e) {
@@ -148,13 +172,20 @@ public class RestartWindow {
             System.out.println("Failed to load level: " + levelClass.getSimpleName());
         }
     }
+
+    /**
+     * Creates a neon-styled {@code Button}.
+     *
+     * @param text      the text to display on the button
+     * @param neonColor the color of the neon glow
+     * @return a styled {@code Button} with a neon glow effect
+     */
     private Button createNeonButton(String text, Color neonColor) {
         Button button = new Button(text);
         button.setFont(Font.loadFont(getClass().getResourceAsStream("/com/example/demo/fonts/astroz.regular.ttf"), 30));
         button.setTextFill(Color.WHITE);
         button.setStyle("-fx-background-color: transparent; -fx-border-color: " + toHexString(neonColor) + "; -fx-border-width: 3; -fx-border-radius: 15;");
 
-        // Add neon light effect
         DropShadow neonShadow = new DropShadow();
         neonShadow.setColor(neonColor);
         neonShadow.setRadius(20);
@@ -171,10 +202,13 @@ public class RestartWindow {
         return button;
     }
 
+    /**
+     * Converts a {@code Color} to its hexadecimal string representation.
+     *
+     * @param color the {@code Color} to convert
+     * @return a {@code String} representing the hexadecimal value of the color
+     */
     private String toHexString(Color color) {
         return String.format("#%02X%02X%02X", (int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
     }
-
-
 }
-

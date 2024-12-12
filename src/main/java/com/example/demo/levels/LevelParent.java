@@ -31,42 +31,155 @@ import java.beans.PropertyChangeSupport;
 
 
 public abstract class LevelParent  {
-
+	/**
+	 * Adjustment value for determining the maximum Y position for enemy units,
+	 * accounting for UI elements.
+	 */
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+
+	/**
+	 * Delay in milliseconds for each game loop iteration in the timeline.
+	 */
 	private static final int MILLISECOND_DELAY = 50;
-	//updated code for better enemy penetration
-	//added two variables lastDamageTime and DAMAGE_COOLDOWN to avoid system errors while playing the game
+
+	/**
+	 * Tracks the last time the player received damage, used to implement a cooldown
+	 * for damage handling.
+	 */
 	private long lastDamageTime = 0;
+
+	/**
+	 * The cooldown time in milliseconds to prevent multiple rapid damage events.
+	 */
 	private static final long DAMAGE_COOLDOWN = 2000; // 2 seconds
-	//until here
+
+	/**
+	 * PropertyChangeSupport for notifying listeners of level transitions.
+	 */
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+	/**
+	 * The height of the game screen in pixels.
+	 */
 	private final double screenHeight;
+
+	/**
+	 * The width of the game screen in pixels.
+	 */
 	private final double screenWidth;
+
+	/**
+	 * The maximum Y position where enemy units can spawn.
+	 */
 	private final double enemyMaximumYPosition;
-    private final AudioClip fireSound = new AudioClip(getClass().getResource("/com/example/demo/sounds/shoot.wav").toExternalForm());
 
+	/**
+	 * The root group containing all elements of the game scene.
+	 */
 	private final Group root;
-	private final Timeline timeline;
-	public  UserPlane user;
-	private final Scene scene;
-	private final ImageView background;
-	private final Collision collision;
-	// In LevelParent constructor
-	private PauseMenuState pauseMenuState;
-	// Add a Stage variable to keep track of the main window stage
-	// Store the Stage instance in LevelParent
-	private final Stage stage;
-	public final AudioClip backgroundSound = new AudioClip(getClass().getResource("/com/example/demo/sounds/background.wav").toExternalForm());
 
+	/**
+	 * The timeline that controls the game loop and updates the scene at regular intervals.
+	 */
+	public final Timeline timeline;
+
+	/**
+	 * The user's plane controlled during the game level.
+	 */
+	public UserPlane user;
+
+	/**
+	 * The main scene for this level.
+	 */
+	private final Scene scene;
+
+	/**
+	 * The background image for the level.
+	 */
+	private final ImageView background;
+
+	/**
+	 * The collision manager for detecting and handling collisions between game entities.
+	 */
+	public final Collision collision;
+
+	/**
+	 * The pause menu state for managing pause and resume functionality.
+	 */
+	private PauseMenuState pauseMenuState;
+
+	/**
+	 * The primary stage used to display the game.
+	 */
+	private final Stage stage;
+
+	/**
+	 * List of friendly units, including the user's plane and any allied entities.
+	 */
 	private final List<ActiveActorDestructible> friendlyUnits;
+
+	/**
+	 * List of enemy units currently active in the level.
+	 */
 	public final List<ActiveActorDestructible> enemyUnits;
+
+	/**
+	 * List of projectiles fired by the user.
+	 */
 	public final List<ActiveActorDestructible> userProjectiles;
+
+	/**
+	 * List of projectiles fired by enemy units.
+	 */
 	public final List<ActiveActorDestructible> enemyProjectiles;
+
+	/**
+	 * List of fighter planes active in the level.
+	 */
 	private final List<FighterPlane> fighterPlanes;
+
+	/**
+	 * Level view for managing UI and gameplay-specific features in Level Three.
+	 */
 	private final LevelViewLevelThree levelViewLevelThree;
+
+	/**
+	 * Level view for managing UI and gameplay-specific features in Level Four.
+	 */
 	private final LevelViewLevelFour levelViewLevelFour;
-	private int currentNumberOfEnemies;
+
+	/**
+	 * The main level view managing health, kill count, and other UI elements.
+	 */
 	private final LevelView levelView;
+
+	/**
+	 * Audio clip for playing the sound effect when firing a projectile.
+	 */
+	private final AudioClip fireSound = new AudioClip(
+			getClass().getResource("/com/example/demo/sounds/shoot.wav").toExternalForm()
+	);
+
+	/**
+	 * Background music played during the level.
+	 */
+	public final AudioClip backgroundSound = new AudioClip(
+			getClass().getResource("/com/example/demo/sounds/background.wav").toExternalForm()
+	);
+
+	/**
+	 * Tracks the current number of enemies active in the level.
+	 */
+	private int currentNumberOfEnemies;
+	/**
+	 * Constructs a new {@code LevelParent} instance.
+	 *
+	 * @param backgroundImageName the path to the background image
+	 * @param screenHeight        the height of the screen
+	 * @param screenWidth         the width of the screen
+	 * @param playerInitialHealth the initial health of the user plane
+	 * @param stage               the primary stage of the application
+	 */
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth,  Stage stage) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
@@ -107,40 +220,73 @@ public abstract class LevelParent  {
 			this.levelViewLevelThree = new LevelViewLevelThree(root,5);
 			this.levelViewLevelFour = new LevelViewLevelFour(root,10);
 	}
-
+	/**
+	 * Abstract method to initialize the friendly units in the level.
+	 * This method is implemented by subclasses to add specific friendly units
+	 * (like the player or allied entities) to the level's scene.
+	 */
 	protected abstract void initializeFriendlyUnits();
-
+	/**
+	 * Abstract method to check if the game is over.
+	 * Subclasses implement this to determine whether the level is completed
+	 * or if the player has lost, based on specific conditions like player health or objectives.
+	 */
 	protected abstract void checkIfGameOver();
-
+	/**
+	 * Abstract method to spawn enemy units in the level.
+	 * Subclasses implement this to define the behavior for spawning
+	 * enemies, including their quantity, positions, and timing.
+	 */
 	protected abstract void spawnEnemyUnits();
-
+	/**
+	 * Abstract method to instantiate the level view.
+	 * This method is implemented by subclasses to create and configure
+	 * the specific {@code LevelView} object for the current level.
+	 *
+	 * @return the {@code LevelView} instance for the level
+	 */
 	protected abstract LevelView instantiateLevelView();
-
+	/**
+	 * Initializes the scene for the level, including background, friendly units, and UI elements.
+	 *
+	 * @return the initialized {@code Scene} object
+	 */
 	public Scene initializeScene() {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
 		return scene;
 	}
+	/**
+	 * Starts the game by focusing the background and starting the timeline.
+	 */
 	public void startGame() {
 		background.requestFocus();
 		timeline.play();
 	}
-	//changed to property change
+	/**
+	 * Fires a property change event to transition to the next level.
+	 *
+	 * @param levelName the name of the next level
+	 */
 	public void goToNextLevel(String levelName) {
 		pcs.firePropertyChange("level", null, levelName);
 		System.out.println("Transitioning to next level: " + levelName);
 	}
 
-
+	/**
+	 * Adds a property change listener for level transitions.
+	 *
+	 * @param listener the property change listener
+	 */
 	//added listener
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
-	//added remove listener
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		pcs.removePropertyChangeListener(listener);
-	}
+	/**
+	 * Updates the scene, including spawning enemies, updating actors,
+	 * handling collisions, and checking game state.
+	 */
 	public void updateScene() {
 		spawnEnemyUnits();
 		// Add PowerUp button and counter to the root
@@ -159,13 +305,17 @@ public abstract class LevelParent  {
 		updateLevelView();
 		checkIfGameOver();
 	}
-
+	/**
+	 * Initializes the timeline for the game loop.
+	 */
 	private void initializeTimeline() {
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> updateScene());
 		timeline.getKeyFrames().add(gameLoop);
 	}
-
+	/**
+	 * Initializes the background image and user controls for the level.
+	 */
 	private void initializeBackground() {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
@@ -189,7 +339,9 @@ public abstract class LevelParent  {
 		Button pauseButton = pauseMenuState.createPauseButton();
 		root.getChildren().add(pauseButton);
 	}
-
+	/**
+	 * Fires a projectile from the user plane.
+	 */
 	private void fireProjectile() {
 		// Play sound effect
 		fireSound.play();
@@ -197,7 +349,9 @@ public abstract class LevelParent  {
 		root.getChildren().add(projectile);
 		userProjectiles.add(projectile);
 	}
-
+	/**
+	 * Spawns enemy projectiles.
+	 */
 	private void generateEnemyFire() {
 		enemyUnits.forEach(enemy -> {
 			// Only let FighterPlane enemies generate projectiles
@@ -208,31 +362,38 @@ public abstract class LevelParent  {
 		});
 	}
 
-	// Add this method to help with LevelView access
+	/**
+	 * Gets the {@link LevelView} instance associated with this level.
+	 * The LevelView manages UI elements such as health displays and kill counts.
+	 *
+	 * @return the {@link LevelView} instance for this level.
+	 */
 	protected LevelView getLevelView() {
 		return levelView;
 	}
+	/**
+	 * Spawns a new enemy projectile if it exists.
+	 *
+	 * @param projectile the projectile to spawn
+	 */
 	private void spawnEnemyProjectile(ActiveActorDestructible projectile) {
 		if (projectile != null) {
 			root.getChildren().add(projectile);
 			enemyProjectiles.add(projectile);
 		}
 	}
-
+	/**
+	 * Updates all actors in the scene.
+	 */
 	private void updateActors() {
 		friendlyUnits.forEach(plane -> plane.updateActor());
 		enemyUnits.forEach(enemy -> enemy.updateActor());
 		userProjectiles.forEach(projectile -> projectile.updateActor());
 		enemyProjectiles.forEach(projectile -> projectile.updateActor());
 	}
-
-	protected void addFighterPlane(FighterPlane fighterPlane) {
-		fighterPlanes.add(fighterPlane);
-		root.getChildren().add(fighterPlane);
-	}
-
-
-
+	/**
+	 * Removes all destroyed actors from the scene and root.
+	 */
 	public void removeAllDestroyedActors() {
 		collision.removeDestroyedActors(friendlyUnits);
 		collision.removeDestroyedActors(enemyUnits);
@@ -245,17 +406,24 @@ public abstract class LevelParent  {
 						((ActiveActorDestructible) node).isDestroyed()
 		);
 	}
-
+	/**
+	 * Removes all hearts from the level view to reflect the user's remaining health.
+	 */
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());
 	}
-
+	/**
+	 * Updates the kill count displayed in the level view.
+	 */
 	private void updateKillCount() {
 		// Update the level view with the current kill count
 		levelView.updateKillCount(user.getNumberOfKills());
 
 	}
-
+	/**
+	 * Handles logic when the game is won, including stopping the timeline,
+	 * displaying a win image, and showing restart options.
+	 */
 	protected void winGame() {
 		timeline.stop();
 		levelView.showWinImage();
@@ -273,44 +441,84 @@ public abstract class LevelParent  {
 			}
 		}).start();
 	}
-
+	/**
+	 * Handles logic when the game is lost, including stopping the timeline
+	 * and displaying a game-over image.
+	 */
 	protected void loseGame() {
 		timeline.stop();
 		levelView.showGameOverImage();
-	}
 
+	}
+	/**
+	 * Gets the user plane in the level.
+	 *
+	 * @return the {@code UserPlane} object
+	 */
 	protected UserPlane getUser() {
 		return user;
 	}
-
+	/**
+	 * Gets the root group of the level.
+	 *
+	 * @return the root {@code Group} object
+	 */
 	protected Group getRoot() {
 		return root;
 	}
-
+	/**
+	 * Gets the current number of active enemies in the level.
+	 *
+	 * @return the number of enemies currently present in the level.
+	 */
 	protected int getCurrentNumberOfEnemies() {
 		return enemyUnits.size();
 	}
-
+	/**
+	 * Adds an enemy unit to the list of active enemies and the root group.
+	 *
+	 * @param enemy the enemy unit to add
+	 */
 	protected void addEnemyUnit(ActiveActorDestructible enemy) {
 		enemyUnits.add(enemy);
 		root.getChildren().add(enemy);
 	}
-
+	/**
+	 * Gets the maximum Y position for spawning enemy units.
+	 *
+	 * @return the maximum Y position for enemies
+	 */
 	protected double getEnemyMaximumYPosition() {
 		return enemyMaximumYPosition;
 	}
-
+	/**
+	 * Gets the screen width of the level.
+	 *
+	 * @return the screen width
+	 */
 	protected double getScreenWidth() {
 		return screenWidth;
 	}
-
+	/**
+	 * Checks if the user plane is destroyed.
+	 *
+	 * @return {@code true} if the user plane is destroyed, {@code false} otherwise
+	 */
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();
 	}
 
+	/**
+	 * Updates the number of currently active enemy units.
+	 */
 	private void updateNumberOfEnemies() {
 		currentNumberOfEnemies = enemyUnits.size();
 	}
+	/**
+	 * Gets the stage associated with the level.
+	 *
+	 * @return the {@code Stage} object
+	 */
 	public Stage getStage() {
 		return this.stage;
 	}

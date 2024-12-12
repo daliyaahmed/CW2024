@@ -4,16 +4,27 @@ import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import javafx.util.Duration;
 import javafx.scene.Group;
 
+/**
+ * The {@code LevelOneBanner} class is responsible for displaying a banner
+ * at the start of Level One. It includes animations for smooth appearance
+ * and timed removal of the banner.
+ */
 public class LevelOneBanner {
 
-
+    /** The ImageView displaying the banner. */
     private final ImageView banner;
 
-    // Constructor to create the banner ImageView
+    /**
+     * Constructs a {@code LevelOneBanner} object with the given screen dimensions.
+     * It initializes the banner image, positions it at the center of the screen,
+     * and applies a fade-in effect for smooth appearance.
+     *
+     * @param screenWidth the width of the screen
+     * @param screenHeight the height of the screen
+     */
     public LevelOneBanner(double screenWidth, double screenHeight) {
         Image levelOneGif = new Image(getClass().getResource("/com/example/demo/images/lvl1banner.gif").toExternalForm());
         this.banner = new ImageView(levelOneGif);
@@ -25,17 +36,22 @@ public class LevelOneBanner {
         banner.setLayoutX((screenWidth - bannerWidth) / 2);
         banner.setLayoutY((screenHeight - bannerHeight) / 2); // Slightly below the top for aesthetics
 
-        // Optional: Add a fade-in effect to make the banner appear smoothly
+        // Add a fade-in effect to make the banner appear smoothly
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(1.5), banner);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
         fadeIn.play();
     }
 
-    // Method to add the banner to the given root group
+    /**
+     * Adds the banner to the specified root group and removes it after 3 seconds.
+     *
+     * @param root the {@code Group} to which the banner will be added
+     */
     public void addTo(Group root) {
         root.getChildren().add(banner);
-        // Optional: Remove the banner after 3 seconds
+
+        // Remove the banner after 3 seconds
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
         delay.setOnFinished(event -> root.getChildren().remove(banner));
         delay.play();

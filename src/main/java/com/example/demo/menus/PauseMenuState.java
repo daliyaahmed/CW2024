@@ -1,7 +1,5 @@
 package com.example.demo.menus;
 
-
-
 import com.example.demo.controller.MainMenu;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,13 +14,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * The {@code PauseMenuState} class manages the game's pause menu, providing
+ * functionality to pause, resume, and quit the game. It handles UI elements
+ * like buttons and overlays, and ensures smooth transitions between states.
+ */
 public class PauseMenuState {
+
     private static final String PAUSE_BUTTON = "/com/example/demo/images/pauseBut.png";
     private static final String RESUME_BUTTON = "/com/example/demo/images/resumeBut.png";
     private static final String QUIT_BUTTON = "/com/example/demo/images/quitBut.png";
@@ -32,21 +35,33 @@ public class PauseMenuState {
     private final double screenWidth;
     private final double screenHeight;
     private final Runnable resumeCallback;
-    // Add a Stage variable to keep track of the main window stage
     private final Stage stage;
 
+    /**
+     * Constructor to initialize the pause menu state.
+     *
+     * @param root           the root group of the game scene
+     * @param timeline       the game's main timeline
+     * @param screenWidth    the width of the game screen
+     * @param screenHeight   the height of the game screen
+     * @param resumeCallback a callback to resume the game
+     * @param stage          the main stage of the application
+     */
     public PauseMenuState(Group root, Timeline timeline, double screenWidth, double screenHeight,
-                     Runnable resumeCallback,  Stage stage) {
+                          Runnable resumeCallback, Stage stage) {
         this.root = root;
         this.timeline = timeline;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.resumeCallback = resumeCallback;
-
-
         this.stage = stage;
     }
 
+    /**
+     * Creates a pause button that, when clicked, pauses the game and displays the pause menu.
+     *
+     * @return a {@link Button} representing the pause button
+     */
     public Button createPauseButton() {
         Image pauseButtonImage = new Image(getClass().getResourceAsStream(PAUSE_BUTTON));
         ImageView pauseImageView = new ImageView(pauseButtonImage);
@@ -63,37 +78,51 @@ public class PauseMenuState {
         return pauseButton;
     }
 
+    /**
+     * Displays the pause menu overlay and stops the game timeline.
+     *
+     * @param pauseButton the button used to trigger the pause menu
+     */
     private void showPauseWindow(Button pauseButton) {
-        // Pause the game
         timeline.pause();
 
-        // Create a pause overlay
         StackPane pauseOverlay = new StackPane();
         pauseOverlay.setPrefSize(screenWidth, screenHeight);
         pauseOverlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); ");
 
-        // Inner box with border and smaller size
         VBox borderBox = new VBox();
         borderBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color:  gold; -fx-border-width: 5px; -fx-border-radius: 20; -fx-background-radius: 20;");
-        borderBox.setPadding(new Insets(20)); // Adds space inside the border
-        borderBox.setSpacing(30); // Adds space between elements
+        borderBox.setPadding(new Insets(20));
+        borderBox.setSpacing(30);
         borderBox.setAlignment(Pos.CENTER);
-        borderBox.setMaxWidth(400); // Limits the width of the box
-        borderBox.setMaxHeight(300); // Limits the height of the box
+        borderBox.setMaxWidth(400);
+        borderBox.setMaxHeight(300);
 
-        // Pause message
         Label pauseLabel = new Label("GAME PAUSED");
         pauseLabel.setFont(Font.loadFont(getClass().getResourceAsStream("/com/example/demo/fonts/astroz.regular.ttf"), 30));
 
-        // Add a neon-like glow effect using a DropShadow
         DropShadow neonGlow = new DropShadow();
         neonGlow.setColor(Color.GOLD);
         neonGlow.setRadius(20);
-        neonGlow.setSpread(0.4); // Makes the glow more intense
-
-        // Add the glow effect to the label
+        neonGlow.setSpread(0.4);
         pauseLabel.setEffect(neonGlow);
-        // resume game button
+
+        Button resumeButton = createResumeButton(pauseOverlay, pauseButton);
+        Button quitLevelButton = createQuitLevelButton();
+
+        borderBox.getChildren().addAll(pauseLabel, resumeButton, quitLevelButton);
+        pauseOverlay.getChildren().add(borderBox);
+        root.getChildren().add(pauseOverlay);
+    }
+
+    /**
+     * Creates the resume button to resume the game from the pause state.
+     *
+     * @param pauseOverlay the pause overlay to be removed when resuming
+     * @param pauseButton  the pause button to re-enable after resuming
+     * @return a {@link Button} for resuming the game
+     */
+    private Button createResumeButton(StackPane pauseOverlay, Button pauseButton) {
         Image resumeButImage = new Image(getClass().getResourceAsStream(RESUME_BUTTON));
         ImageView resumeImageView = new ImageView(resumeButImage);
         resumeImageView.setFitWidth(100);
@@ -102,13 +131,21 @@ public class PauseMenuState {
         Button resumeButton = new Button();
         resumeButton.setGraphic(resumeImageView);
         resumeButton.setStyle("-fx-background-color: transparent;");
-        resumeButton.setOnAction(event ->  {
+        resumeButton.setOnAction(event -> {
             root.getChildren().remove(pauseOverlay);
             pauseButton.setDisable(true);
             resumeGameWithCountdown(pauseButton);
         });
 
-        // quit level button
+        return resumeButton;
+    }
+
+    /**
+     * Creates the quit button to exit the current level and return to the main menu.
+     *
+     * @return a {@link Button} for quitting the level
+     */
+    private Button createQuitLevelButton() {
         Image quitLevelImage = new Image(getClass().getResourceAsStream(QUIT_BUTTON));
         ImageView quitLevelImageView = new ImageView(quitLevelImage);
         quitLevelImageView.setFitWidth(100);
@@ -119,37 +156,29 @@ public class PauseMenuState {
         quitLevelButton.setStyle("-fx-background-color: transparent;");
         quitLevelButton.setOnAction(event -> {
             if (stage != null) {
-                // Clear all nodes in the root to prevent any leftover content.
                 root.getChildren().clear();
-                // Create an instance of MainMenu and show the main menu
                 MainMenu mainMenu = new MainMenu(stage);
-
-                // Set stage properties and reset to full-screen mode.
-                stage.setFullScreenExitHint(""); // Clear full-screen exit hint for a clean UI.
-                stage.setFullScreen(false);      // Set it to non-full-screen first to refresh properties.
-                stage.setFullScreen(true);       // Then set it back to full-screen mode.
-
-
+                stage.setFullScreenExitHint("");
+                stage.setFullScreen(false);
+                stage.setFullScreen(true);
                 mainMenu.showMenu();
             }
         });
 
-        // Add all elements to the inner box
-        borderBox.getChildren().addAll(pauseLabel, resumeButton, quitLevelButton);
-
-        pauseOverlay.getChildren().add(borderBox);
-        root.getChildren().add(pauseOverlay);
+        return quitLevelButton;
     }
 
+    /**
+     * Resumes the game with a countdown displayed on the screen.
+     *
+     * @param pauseButton the pause button to re-enable after the countdown
+     */
     private void resumeGameWithCountdown(Button pauseButton) {
-        // Create a Label for the countdown with initial text "3"
         Label countdownLabel = new Label("3");
         countdownLabel.setFont(Font.loadFont(getClass().getResourceAsStream("/com/example/demo/fonts/astroz.regular.ttf"), 90));
-        //countdownLabel.setStyle("-fx-font-size: 100px; -fx-text-fill: white;");
-        countdownLabel.setLayoutX(screenWidth / 2 - 50);  // Adjust position to center the label
+        countdownLabel.setLayoutX(screenWidth / 2 - 50);
         countdownLabel.setLayoutY(screenHeight / 2 - 100);
 
-        // Create neon effect for the countdown label
         DropShadow neonShadow = new DropShadow();
         neonShadow.setColor(Color.GOLD);
         neonShadow.setRadius(50);
@@ -157,34 +186,18 @@ public class PauseMenuState {
 
         InnerShadow innerGlow = new InnerShadow();
         innerGlow.setColor(Color.GOLD);
-        innerGlow.setRadius(25); // Adjust radius to make it more visible
-        innerGlow.setChoke(0.4); // Choke to make the inner glow more pronounced
+        innerGlow.setRadius(25);
+        innerGlow.setChoke(0.4);
 
-        // Combine effects
         countdownLabel.setEffect(neonShadow);
         countdownLabel.setEffect(innerGlow);
 
-        // Add the countdown label to the root layout
         root.getChildren().add(countdownLabel);
 
-        // Timeline for the countdown effect
         Timeline countdownTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(1), e -> {
-                    countdownLabel.setText("2");
-                    neonShadow.setColor(Color.GOLD);
-                    innerGlow.setColor(Color.GOLD);
-                    countdownLabel.setEffect(neonShadow);
-                    countdownLabel.setEffect(innerGlow);
-                }),
-                new KeyFrame(Duration.seconds(2), e -> {
-                    countdownLabel.setText("1");
-                    neonShadow.setColor(Color.GOLD);
-                    innerGlow.setColor(Color.GOLD);
-                    countdownLabel.setEffect(neonShadow);
-                    countdownLabel.setEffect(innerGlow);
-                }),
+                new KeyFrame(Duration.seconds(1), e -> countdownLabel.setText("2")),
+                new KeyFrame(Duration.seconds(2), e -> countdownLabel.setText("1")),
                 new KeyFrame(Duration.seconds(3), e -> {
-                    // Remove the countdown label and resume the game
                     root.getChildren().remove(countdownLabel);
                     pauseButton.setDisable(false);
                     if (resumeCallback != null) {

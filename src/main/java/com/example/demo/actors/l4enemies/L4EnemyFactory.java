@@ -2,38 +2,99 @@ package com.example.demo.actors.l4enemies;
 
 import com.example.demo.actors.*;
 import javafx.scene.Group;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The {@code L4EnemyFactory} class is responsible for spawning and managing enemies for level 4 of the game.
+ * It handles enemy creation, collisions, and win condition checks.
+ */
 public class L4EnemyFactory {
 
-    private int blueJetsSpawned = 0;
+    /**
+     * Count of BlueJets killed by the player.
+     */
     private int blueJetsKilled = 0;
 
-    private int whiteJetsSpawned = 0;
+    /**
+     * Count of WhiteJets killed by the player.
+     */
     private int whiteJetsKilled = 0;
 
-    private boolean greenJetSpawned = false;
-    private boolean greenJetKilled = false;
-    private static final double UPPER_BOUND = 50;  // Upper bound for enemy movement
-    private static final double LOWER_BOUND = 300; // Lower bound for enemy movement
-    private static final int MAX_ENEMIES_ON_SCREEN = 5;
-
-    private final UserPlane user;
-    private final List<ActiveActorDestructible> userProjectiles;
-    private final List<ActiveActorDestructible> enemyUnits;
-    private final List<ActiveActorDestructible> enemyProjectiles;
-    private final Group root;
-
+    /**
+     * Count of GreenJets killed by the player.
+     */
     private int greenJetsKilled = 0;
-    private boolean isLevelComplete = false;
 
+    /**
+     * Flag indicating whether BlueJets can be spawned.
+     */
     private boolean canSpawnBlueJets = true;
+
+    /**
+     * Flag indicating whether WhiteJets can be spawned.
+     */
     private boolean canSpawnWhiteJets = true;
+
+    /**
+     * Flag indicating whether GreenJets can be spawned.
+     */
     private boolean canSpawnGreenJets = true;
 
+    /**
+     * Upper bound for enemy vertical movement.
+     */
+    private static final double UPPER_BOUND = 50;
 
+    /**
+     * Lower bound for enemy vertical movement.
+     */
+    private static final double LOWER_BOUND = 300;
+
+    /**
+     * Maximum number of enemies allowed on the screen simultaneously.
+     */
+    private static final int MAX_ENEMIES_ON_SCREEN = 5;
+
+    /**
+     * The root {@code Group} for adding enemies to the scene.
+     */
+    private final Group root;
+
+    /**
+     * The user's plane.
+     */
+    private final UserPlane user;
+
+    /**
+     * List of user projectiles.
+     */
+    private final List<ActiveActorDestructible> userProjectiles;
+
+    /**
+     * List of active enemy units.
+     */
+    private final List<ActiveActorDestructible> enemyUnits;
+
+    /**
+     * List of enemy projectiles.
+     */
+    private final List<ActiveActorDestructible> enemyProjectiles;
+
+    /**
+     * Flag indicating whether the level is complete.
+     */
+    private boolean isLevelComplete = false;
+
+    /**
+     * Constructs an {@code L4EnemyFactory} with the specified user plane, projectiles, and root group.
+     *
+     * @param user the user's plane
+     * @param userProjectiles the list of user projectiles
+     * @param enemyUnits the list of enemy units
+     * @param enemyProjectiles the list of enemy projectiles
+     * @param root the root group for adding enemy nodes
+     */
     public L4EnemyFactory(UserPlane user,
                           List<ActiveActorDestructible> userProjectiles,
                           List<ActiveActorDestructible> enemyUnits,
@@ -46,6 +107,12 @@ public class L4EnemyFactory {
         this.root = root;
     }
 
+    /**
+     * Spawns enemies if the maximum number of enemies on the screen has not been reached.
+     *
+     * @param screenWidth the width of the screen
+     * @param screenHeight the height of the screen
+     */
     public void spawnEnemies(double screenWidth, double screenHeight) {
         if (enemyUnits.size() < MAX_ENEMIES_ON_SCREEN) {
             double initialXPos = screenWidth - 300;
@@ -61,6 +128,12 @@ public class L4EnemyFactory {
             }
         }
     }
+
+    /**
+     * Selects a random enemy type from the allowed types.
+     *
+     * @return an integer representing the enemy type; -1 if no types are available
+     */
     private int selectEnemyType() {
         List<Integer> allowedTypes = new ArrayList<>();
         if (canSpawnBlueJets) allowedTypes.add(0);
@@ -74,10 +147,22 @@ public class L4EnemyFactory {
         // Randomly pick from the allowed types
         return allowedTypes.get((int) (Math.random() * allowedTypes.size()));
     }
+
+    /**
+     * Checks if the level is complete.
+     *
+     * @return {@code true} if the level is complete; {@code false} otherwise
+     */
     public boolean isLevelComplete() {
         return isLevelComplete;
     }
 
+    /**
+     * Spawns a {@code BlueJet} enemy.
+     *
+     * @param initialXPos the initial X-coordinate of the enemy
+     * @param initialYPos the initial Y-coordinate of the enemy
+     */
     private void spawnBlueJet(double initialXPos, double initialYPos) {
         if (canSpawnBlueJets) {
             BlueJet blueJet = new BlueJet(initialXPos, initialYPos);
@@ -87,6 +172,12 @@ public class L4EnemyFactory {
         }
     }
 
+    /**
+     * Spawns a {@code WhiteJet} enemy.
+     *
+     * @param initialXPos the initial X-coordinate of the enemy
+     * @param initialYPos the initial Y-coordinate of the enemy
+     */
     private void spawnWhiteJet(double initialXPos, double initialYPos) {
         if (canSpawnWhiteJets) {
             WhiteJet whiteJet = new WhiteJet(initialXPos, initialYPos);
@@ -96,6 +187,12 @@ public class L4EnemyFactory {
         }
     }
 
+    /**
+     * Spawns a {@code GreenJet} enemy.
+     *
+     * @param initialXPos the initial X-coordinate of the enemy
+     * @param initialYPos the initial Y-coordinate of the enemy
+     */
     private void spawnGreenJet(double initialXPos, double initialYPos) {
         if (canSpawnGreenJets) {
             GreenJet greenJet = new GreenJet(initialXPos, initialYPos);
@@ -105,12 +202,18 @@ public class L4EnemyFactory {
         }
     }
 
+    /**
+     * Handles collisions between user projectiles and enemies.
+     */
     public void handleCollisions() {
         handleUserProjectileCollisions();
         handleEnemyProjectileCollisions();
         handleEnemyCollisionsWithUser();
     }
 
+    /**
+     * Handles collisions between user projectiles and enemies, registering kills and removing destroyed entities.
+     */
     private void handleUserProjectileCollisions() {
         for (ActiveActorDestructible projectile : new ArrayList<>(userProjectiles)) {
             for (ActiveActorDestructible enemy : new ArrayList<>(enemyUnits)) {
@@ -120,10 +223,8 @@ public class L4EnemyFactory {
 
                     if (enemy.isDestroyed()) {
                         registerKill(enemy);
-                        System.out.println("Enemy destroyed: " + enemy.getClass().getSimpleName());
                         root.getChildren().remove(enemy);
-                        enemyUnits.remove(enemy); // Ensure it is removed from the game state
-                        System.out.println("Removing enemy after destryed after user projectile destryed: " + enemy);
+                        enemyUnits.remove(enemy);
                     }
 
                     root.getChildren().remove(projectile);
@@ -133,37 +234,37 @@ public class L4EnemyFactory {
             }
         }
     }
+
+    /**
+     * Registers a kill for a specific enemy type and updates spawn permissions.
+     *
+     * @param enemy the enemy that was destroyed
+     */
     public void registerKill(ActiveActorDestructible enemy) {
+        enemy.destroy(); // Ensure the destroy method is called
+
         if (enemy instanceof BlueJet) {
             blueJetsKilled++;
-            System.out.println("BlueJet killed 1st: " + blueJetsKilled);
             if (blueJetsKilled == 1) {
                 canSpawnBlueJets = false; // Stop spawning BlueJets
-
             }
-            System.out.println("BlueJet killed: " + blueJetsKilled);
         } else if (enemy instanceof WhiteJet) {
             whiteJetsKilled++;
-            System.out.println("WhiteJet killed 1st: " + whiteJetsKilled);
             if (whiteJetsKilled == 1) {
                 canSpawnWhiteJets = false; // Stop spawning WhiteJets
-
             }
-            System.out.println("WhiteJet killed: " + whiteJetsKilled);
         } else if (enemy instanceof GreenJet) {
             greenJetsKilled++;
-            System.out.println("GreenJet killed 1st: " + greenJetsKilled);
             if (greenJetsKilled == 1) {
                 canSpawnGreenJets = false; // Stop spawning GreenJets
-
             }
-            System.out.println("GreenJet killed: " + greenJetsKilled);
         }
         checkWinCondition();
-        System.out.println("Remaining enemies: " + enemyUnits.size());
-        System.out.println("Remaining projectiles: " + userProjectiles.size());
     }
 
+    /**
+     * Handles collisions between enemy projectiles and the user.
+     */
     private void handleEnemyProjectileCollisions() {
         for (ActiveActorDestructible projectile : new ArrayList<>(enemyProjectiles)) {
             if (projectile.getBoundsInParent().intersects(user.getBoundsInParent())) {
@@ -173,6 +274,9 @@ public class L4EnemyFactory {
         }
     }
 
+    /**
+     * Handles collisions between enemies and the user's plane.
+     */
     private void handleEnemyCollisionsWithUser() {
         for (ActiveActorDestructible enemy : new ArrayList<>(enemyUnits)) {
             if (enemy.getBoundsInParent().intersects(user.getBoundsInParent())) {
@@ -180,75 +284,29 @@ public class L4EnemyFactory {
                 enemy.destroy();
                 root.getChildren().remove(enemy);
                 enemyUnits.remove(enemy);
-                System.out.println("Removing enemy: " + enemy);
-                System.out.println("Remaining enemies: " + enemyUnits.size());
-                //checkWinCondition(); // Check if the win condition is met
             }
         }
     }
 
-    private void handleBlueJetCollision(BlueJet blueJet, ActiveActorDestructible projectile) {
-        blueJet.takeDamage();
-        projectile.takeDamage();
-
-
-        if (blueJet.isDestroyed()) {
-            registerKill(blueJet);
-            root.getChildren().remove(blueJet);
-            enemyUnits.remove(blueJet);
-            System.out.println("Removing enemy: " + blueJet);
-            System.out.println("Remaining enemies: " + enemyUnits.size());
-            System.out.println("BlueJet destroyed!");
-        }
-
-        root.getChildren().remove(projectile);
-        userProjectiles.remove(projectile);
-        System.out.println("Projectile removed: " + projectile);
-    }
-
-    private void handleWhiteJetCollision(WhiteJet whiteJet, ActiveActorDestructible projectile) {
-        whiteJet.takeDamage();
-        projectile.takeDamage();
-
-        if (whiteJet.isDestroyed()) {
-            registerKill(whiteJet);
-            root.getChildren().remove(whiteJet);
-            enemyUnits.remove(whiteJet);
-            System.out.println("Removing enemy: " + whiteJet);
-            System.out.println("Remaining enemies: " + enemyUnits.size());
-            System.out.println("WhiteJet destroyed!");
-        }
-
-        root.getChildren().remove(projectile);
-        userProjectiles.remove(projectile);
-        System.out.println("Projectile removed: " + projectile);
-    }
-
-    private void handleGreenJetCollision(GreenJet greenJet, ActiveActorDestructible projectile) {
-        greenJet.takeDamage();
-        projectile.takeDamage();
-
-        if (greenJet.isDestroyed()) {
-            registerKill(greenJet);
-            root.getChildren().remove(greenJet);
-            enemyUnits.remove(greenJet);
-            System.out.println("Removing enemy: " + greenJet);
-            System.out.println("Remaining enemies: " + enemyUnits.size());
-            System.out.println("GreenJet destroyed!");
-        }
-
-        root.getChildren().remove(projectile);
-        userProjectiles.remove(projectile);
-        System.out.println("Projectile removed: " + projectile);
-    }
+    /**
+     * Checks if the win condition for the level has been met.
+     * The win condition requires specific counts of killed enemies.
+     */
     private void checkWinCondition() {
-        // Win condition: 2 GreenJets, 3 WhiteJets, and 4 BlueJets killed
         if (greenJetsKilled >= 1 && whiteJetsKilled >= 1 && blueJetsKilled >= 1) {
             isLevelComplete = true;
-            System.out.println("Win condition met!");
             System.out.println("Win condition met! Green: " + greenJetsKilled +
                     ", White: " + whiteJetsKilled + ", Blue: " + blueJetsKilled);
         }
     }
+
+    /**
+     * getter method to check if Blue Jets can be spawned or not
+     * @return canSpawnBlueJets
+     */
+    public boolean getSpawnBlueJets() {
+        return canSpawnBlueJets;
+    }
+
 
 }
