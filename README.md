@@ -39,33 +39,57 @@ https://github.com/daliyaahmed/CW2024
 16. *Added Restart window*: Once user wins the game, a window will show up that will give you options to go either to level one, two , three, four, or quit. It also shows a cool blood splatter on the screen. 
 17. *Blood Splatter*: I did that using the shapes to display that look and made sure that the circles were randomized, so every time the Restart window displays user gets a different blood splatter pattern.
 18. *Arcade-like Font*: I added Astroz font for my whole game. It amplified my whole gaming experience.
-19. *
-
-• 
-• 
-• 
-• 
+19. *Added Sounds*: I added an upbeat background sound and when user fires a projectile, I added a cool shooting sound. 
+20. *Added Confetti in Win Image*: Once the winImage is displayed, the circles meaning the confetti will drop from the top of the screen.
 
 
 
 ## Implemented but Not Working Properly: 
-List any features that have been
-implemented but are not working correctly. Explain the issues you encountered,
-and if possible, the steps you took to address them.
+1. Banners overlap with the bullets and planes 
+2. In level four, when the pause button is pressed, the time remaining doesn't stop other than that it works. 
 ## Features Not Implemented: 
-• 
+1. *User's Shield*: User's shield will help protect the user form the enemies' projectiles.
+2. *Explosion* : When user plane and enemy plane collide, an explosion will occur between them. 
+3. *Add Sound for winGame and loseGame* : After losing the game, there would have been sounds that come to celebrate.
+4. * 
+ 
 
 
 ## New Java Classes:
- Enumerate any new Java classes that you introduced for the
-assignment. Include a brief description of each class's purpose and its location in the
-code.
-*Implemented FullScreenHandler*: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
+**Implemented FullScreenHandler**: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
+
+**PafPlanes class**:
+The PafPlane class represents a specialized enemy plane in Level 3 of the game, serving as an Easter egg inspired by the Pakistani Air Force (PAF). This class extends the FighterPlane class and introduces unique features and behaviors tailored for the level's gameplay dynamics.
+Location: com.example.demo.actors.l3enemies.PafPlane
+**PafPlanePool class**:
+ Implements an object pool for managing PafPlane instances, enabling efficient reuse of these objects to optimize performance and memory usage during gameplay.
+ Location:com.example.demo.actors.l3enemies.PafPlanePool
+**BlueJet class**:
+ Represents a level four enemy plane that moves vertically between specified bounds and fires projectiles at a predefined rate. This class includes customizable movement bounds, damage handling, and projectile firing logic tailored for level four gameplay.
+ Location:com.example.demo.actors.l4enemies.BlueJet
+**GreenJet class**:
+ Represents a level four enemy plane that moves vertically within specified bounds and fires projectiles at a defined rate. It includes functionality for customizable movement limits, projectile firing, and damage handling tailored to enhance level four gameplay.
+**WhiteJet class**:
+Represents a level four enemy plane that moves vertically within defined bounds and fires projectiles at a random firing rate. It is designed to challenge players with dynamic movement and targeted projectile attacks while handling damage and state updates efficiently.
+Location:com.example.demo.actors.l4enemies.WhiteJet
+**L4EnemyFactory class**:
+Manages the creation, spawning, and behavior of enemies for level 4 of the game, including handling collisions and win conditions. It supports spawning three enemy types (BlueJet, WhiteJet, and GreenJet), tracks enemy kills, and determines when the level is complete.
+Location:
+**Main Menu class**:
+ The MainMenu class manages the main menu interface of the game, providing options to play, view a guide, or quit the application. It features a visually engaging design with a fullscreen background, neon-styled buttons, and dynamic resizing for different screen dimensions.
+
+
+
+**
+
 ## Modified Java Classes: 
 List the Java classes you modified from the provided code
 base. Describe the changes you made and explain why these modifications were
 necessary.
-
+**FighterPlane class**:
+**Boss class**:
+**ActiveActorDestructible class**:
+**ActiveActor class**:
 *Refactored Gamev Over Image* : The game over image's configuration was changed to show up properly, since it was very zoomed in before. 
 *Implemented FullScreenHandler*: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
 *Better Precision for the Level One*: The objects' heights were decreased to a certain height so the bullets would be hitting targets more precisely.
