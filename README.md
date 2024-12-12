@@ -47,16 +47,18 @@ https://github.com/daliyaahmed/CW2024
 ## Implemented but Not Working Properly: 
 1. Banners overlap with the bullets and planes 
 2. In level four, when the pause button is pressed, the time remaining doesn't stop other than that it works. 
+
 ## Features Not Implemented: 
 1. *User's Shield*: User's shield will help protect the user form the enemies' projectiles.
 2. *Explosion* : When user plane and enemy plane collide, an explosion will occur between them. 
 3. *Add Sound for winGame and loseGame* : After losing the game, there would have been sounds that come to celebrate.
-4. * 
+
+
  
 
 
 ## New Java Classes:
-**Implemented FullScreenHandler**: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
+**FullScreenHandler class**: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
 
 **PafPlanes class**:
 The PafPlane class represents a specialized enemy plane in Level 3 of the game, serving as an Easter egg inspired by the Pakistani Air Force (PAF). This class extends the FighterPlane class and introduces unique features and behaviors tailored for the level's gameplay dynamics.
@@ -77,15 +79,55 @@ Manages the creation, spawning, and behavior of enemies for level 4 of the game,
 Location:
 **Main Menu class**:
  The MainMenu class manages the main menu interface of the game, providing options to play, view a guide, or quit the application. It features a visually engaging design with a fullscreen background, neon-styled buttons, and dynamic resizing for different screen dimensions.
+**LevelFourBanner class**:
+The LevelFourBanner class handles the display of a visually engaging Level Four banner at the start of the level, including smooth fade-in animations for better aesthetics. It centers the banner on the screen and automatically removes it after a brief display duration, ensuring seamless gameplay transitions.
+**LevelThreeBanner class**:
+The LevelThreeBanner class handles the display of a visually engaging Level Three banner at the start of the level, including smooth fade-in animations for better aesthetics. It centers the banner on the screen and automatically removes it after a brief display duration, ensuring seamless gameplay transitions.
+**LevelTwoBanner class**:
+The LevelTwoBanner class handles the display of a visually engaging Level Two banner at the start of the level, including smooth fade-in animations for better aesthetics. It centers the banner on the screen and automatically removes it after a brief display duration, ensuring seamless gameplay transitions.
+**LevelOneBanner class**:
+The LevelOneBanner class handles the display of a visually engaging Level One banner at the start of the level, including smooth fade-in animations for better aesthetics. It centers the banner on the screen and automatically removes it after a brief display duration, ensuring seamless gameplay transitions.
+**LevelViewLevelThree class**:
+ The LevelViewLevelThree class manages the visual elements and power-up system specific to Level Three, including the display of a power-up button and counter. It integrates power-up logic and ensures these elements are properly added to the game interface for enhanced gameplay.
+**LevelViewLevelFour class**:
+The LevelViewLevelFour class manages the UI elements and gameplay features specific to Level Four, including a countdown timer and power-up elements. It provides functionality for starting and stopping the timer, styling the countdown display, and dynamically positioning it on the screen.
+**LevelFour class**:
+The LevelFour class defines the gameplay mechanics and elements specific to Level Four, including enemy spawning, power-up management, and a countdown timer. It integrates a banner display at the start, handles game-over conditions, and provides a dynamic environment for the player's interactions with enemies and power-ups.
+**LevelThree class**:
+The LevelThree class represents the third level of the game, featuring enemy spawning using an object pool for PafPlane units and a power-up system for the player. It includes logic for transitioning to the next level once the player meets the kill target and displays a unique banner and background for this stage.
+**PauseMenuState class**:
+The PauseMenuState class manages the pause menu in the game, allowing players to pause, resume, or quit the current level. It includes visually styled buttons, overlays, and animations for smooth transitions between paused and resumed states.
+**Restart Window**:
+The RestartWindow class handles the game-over screen, allowing players to restart specific levels or quit the game. It features visually styled buttons, a blood splatter background effect, and dynamic level loading for seamless transitions.
+**Collision class**:
+The Collision class manages collision detection and resolution between game entities, including the player's plane, friendly units, enemy units, and projectiles. It handles various interactions such as projectile hits, plane collisions, and enemy penetration beyond defenses, ensuring appropriate damage and state updates.
+**BlueJetProjectile class**:
+The BlueJetProjectile class represents a projectile fired by a Blue Jet in the game, characterized by its specific image, size, and movement speed. It moves horizontally at a fixed velocity and updates its position accordingly during gameplay.
+**GreenJetProjectile class**:
+The GreenJetProjectile class represents the projectile fired by Green Jet enemies in the game, featuring a specific image, size, and movement speed. It moves horizontally at a fixed velocity and updates its position dynamically during gameplay.
+**PafProjectile class**:
+The PafProjectile class represents a projectile fired by PAF jets in the game, characterized by its unique image, size, and horizontal movement. It updates its position dynamically at a fixed horizontal velocity to simulate realistic motion during gameplay.
+**WhiteJetProjectile class**:
+The WhiteJetProjectile class represents a projectile fired by white jets in the game, defined by its specific image, size, and horizontal velocity. It dynamically updates its position by moving at a fixed velocity, simulating its motion during gameplay.
+**PowerUpManager class**:
+The PowerUpManager class manages the PowerUp functionality in the game, including a button for activation, a counter for remaining PowerUps, and a timer to deactivate the PowerUp after a set duration. It ensures proper display and interaction with PowerUps while handling activation and deactivation logic seamlessly.
+**ActorManager class**:
+The ActorManager class is responsible for managing the lifecycle and interactions of various game actors, including friendly units, enemy units, and projectiles. It facilitates updating actor states, handling collisions, and removing destroyed actors while maintaining a centralized management system for all active game entities in the scene.
+**GameInputManager class**:
+The GameInputHandler class processes keyboard input to control the movement and actions of the player's plane in the game. It manages key press and release events to enable actions like moving the plane up or down and firing projectiles.
+**ProjectileManager class**: 
+The ProjectileManager class handles the creation, management, and rendering of projectiles fired by both the player and enemy units in the game. It tracks user and enemy projectiles, adds them to the scene for visualization, and facilitates the firing of projectiles by enemy units such as fighter planes.
+**ConfettiEffectManager class**:
+The ConfettiEffectManager class is responsible for creating and animating confetti effects on the game screen. It generates colorful particles with randomized positions, movements, and rotations, adding a celebratory visual element to enhance the user experience.
 
 
-
-**
 
 ## Modified Java Classes: 
-List the Java classes you modified from the provided code
-base. Describe the changes you made and explain why these modifications were
-necessary.
+
+
+
+
+
 **FighterPlane class**:
 **Boss class**:
 **ActiveActorDestructible class**:
