@@ -123,18 +123,112 @@ The ConfettiEffectManager class is responsible for creating and animating confet
 
 
 ## Modified Java Classes: 
+**Active Actor**:
+Refactoring: Active Actor was shifted into an "actors" package. Active Actor's code did not change overall.
+**Active Actor Destructible**:
+I added a method(notDestroy()) to reset the destroyed state of the actor to false.
+Destructible interface was deleted as it served no purpose. ActiveActor Destructible does not extend to Destructible anymore.
+**Boss** class:
+ Introduced a ShieldImage instance to visually represent the shield when active.
+Added a shieldImage field.
+Added initialization for shieldImage in the constructor.
+Updated the updatePosition method to synchronize the shieldImage position with the boss's position when the shield is active.
+Enhanced activateShield and deactivateShield methods to manage the visibility of the ShieldImage.
 
+Cooldown Mechanism:
 
+Original Code: The shield activation was only probabilistic (BOSS_SHIELD_PROBABILITY) without cooldown logic.
+Modified Code: Introduced a cooldown period for the shield.
+Added SHIELD_COOLDOWN_FRAMES to specify the cooldown duration.
+Added shieldCooldownFramesRemaining to track the remaining cooldown time.
+Updated updateShield to decrement the cooldown counter and prevent activation during the cooldown period.
+Visibility Management: Updated updateShield to adjust the position of the shieldImage to follow the boss.
+Increased BOSS_SHIELD_PROBABILITY to 0.50, making the shield activation more frequent for demonstration purposes.
+Reduced HEALTH to 1, possibly for easier testing of boss defeat and mechanics.
 
+Method Enhancements
+updatePosition:
 
+Original Code: Only updated the boss's position based on its move pattern.
+Modified Code: Added logic to update the position of the shieldImage when the shield is active.
+updateShield:
 
+Original Code: Only activated or deactivated the shield based on probability and duration.
+Modified Code: Added cooldown tracking, shield visibility updates, and positional synchronization for shieldImage.
+Minor Refactoring:
+Added getShieldImage() method to allow external access to the shieldImage instance.
+Added a getBossHealth() method to retrieve the boss’s health explicitly.
+Improved logging and debugging:
+Added a log message ("TAKE DAMAGE BOSS EDITION") when the boss takes damage.
+Added a log message ("Shield is off") when the shield is deactivated.
+Class was shifted to an "actors" package
+**l1EnemyPlane** previously named as **EnemyPlane**
+Class was shifted to "actors" package
+The image height was decreased to 50 from 150.
 **FighterPlane class**:
-**Boss class**:
-**ActiveActorDestructible class**:
-**ActiveActor class**:
-*Refactored Gamev Over Image* : The game over image's configuration was changed to show up properly, since it was very zoomed in before. 
+A boolean flag was added to check if the actor is not destroyed in the if condition with health at zero condition.
+The healthAyZero method is changed from it returns health == 0 to it returns health<=0.
+The reason for this change is when I was adding the collision logic and spawning logic for Level 4, there were problems with how the enemies' health were decreasing less than zero and it didn't destroy the enemy right away.
+**UserPlane**:
+Refactoring: The image height waas lowered from 150 to 50
+Also, the image itself was cropped to be more precise hitbox to remove the unnecessary whitespace.
+A boolean flag is PowerUpActive added, and the PowerUp method is activated to make sure that velocity is to the highest velocity 100 for 30 seconds.
+**Controller**:
+The fullScreenHandler class is being used in this class to make sure when the game launches the full screen will be applied.
+Since Observer was deprecated, I replaced it with Property Change Listener to ensure compliance with current standards, avoiding potential future removal and maintenance issues.
+**Main** :
+The screen width and height variables were changed from 1300 and 750 to 1500 and 800. 
+The background sound was included and looped to inifite. 
+The main menu was added and linked to main class.
+**LevelView**:
+The Loss screen X and Y coordiantes were changed from -160 and -395 to 50 and -400.
+The killCount feature was added and a method updateKillCOuntPos to update the kill count position and a method to update Kill Count.
+In the showGameOverImage, there was an if condition added to make sure that the image was in the root or not.
+The class was first added to the "levels" package then "views" package was added to levels page so then this class was added to the views package.
+**LevelViewLeveTwo**:
+The code was never modified but the class was shifted to "views" package.
+**LevelTwo** :
+I removed the next level variable due to an issue I was having when implementing the restart window when you click back to the any level, the kill counts are not being checked with the required amount of kills 
+and it was never transitioning to the next level after meeting the kills required.
+In the start, I was having issues with the level transition from level 1 to level 2, so I added a boolean flag and add a condition in the initializeScene method that if levelTransition is already done then dont go back to the level transition code again.
+The initializeScene method was added which handles the scene and the level banner being displayed.
+There was a getter method to next level added from a superclass.
+**LevelParent**:
+First of all, I added sounds to win game, lose game, background used to stop when winGame shows, and fire projectiles sounds.
+I added confetti dropping from the top of the screen in the winGame state using circles.
+
+Then, I refactored the collision logic in levelParent to a new class called Collision.
+After I added the pauseMenu in the levelParent, I refactored the code to take pauseMenu logic into a new class called PauseMenuState.
+Earlier we talked about the change from observer to pcs, in the goToNextLevel method, I changed the observer logic to property change listener. Also, I added an addPropertyChangeListener method.
+Then, I refactored the input handler logic and shifted it to a new class called inputHandler.
+I added a pause button in the code and it is handled by a PauseMenuState class.
+I added a getter method for levelView.
+Finally, I added a method to update the kill count in this class.
+**LevelTwo**:
+I added the same levelTransitioned and bannerDisplayed logic into level 2. Also, I added initialize scene method.
+I called the showShield function in levelView in LevelTwo.
+I had great difficulties dealing with the shield image.
+**EnemyProjectile**:
+The only modification I did was to decreasing the height of the image and manually crop out the whitespaces of the projectile to get a more precise aim to the planes.
+Also package shift
+**Projectile** class's only modification was that it shifted to a new package called "projectiles".
+**UserProjectile** 
+The only modification I did was to decreasing the height of the image and manually crop out the whitespaces of the projectile to get a more precise aim to the planes.
+Also package shift
+**GameOverImage**:
+Refactored Game Over Image : The game over image's configuration was changed to show up properly, since it was very zoomed in before. 
+The X and Y coordinates were given  fixed values according to the screen and also scaled down the image to 50% of its orignal size.
+**HeartDisplay** class's only modification was that it shifted to a new package called "UI".
+**ShieldImage**: 
+A boolean flag was added for checking if the shield on or not.
+I changed the first setVisible method from false to true to make sure it is visisble from the start.
+ShowShield method has been modified to use the boolean flag if the shield is not on then it sets visible method to true.
+An updatePosition method has been added for the position of the shield to follow the boss.
+**WinImage**: 
+I added fixed values for the WinImage X and Y positions to 500 and 200 respectively.
+
 *Implemented FullScreenHandler*: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
-*Better Precision for the Level One*: The objects' heights were decreased to a certain height so the bullets would be hitting targets more precisely.
+*Better Precision for Level One*: The objects' heights were decreased to a certain height so the bullets would be hitting targets more precisely.
 *Package Organization*: The classes were arranged into packages according to how they are related.
 *Refactored the Win Image*, I changed the position of the Win Image on the screen.
 
