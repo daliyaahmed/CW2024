@@ -20,16 +20,16 @@ https://github.com/daliyaahmed/CW2024
 
 ##  Implemented and Working Properly: 
 
-• Removed Observer class and added Property Change Listener to carry out all the tasks that Observer class used to do 
-• *Refactored the Win Image*, I changed the position of the Win Image on the screen
-• I attached the Shield Image to the Boss Plane.
-• *Package Organization*: The classes were arranged into packages according to how they are related.
-• *Better Precision for the Level One*: The objects' heights were decreased to a certain height so the bullets would be hitting targets more precisely.
-• *Implemented FullScreenHandler*: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
-• *Added Main Menu *: This class helps introduce my game to what it stands for and has  cool interactive buttons that are dynamic, rather than implementing a picture as a button. There are three different buttons that lead to "Play" button:Level One, "Guide To Play": Show Guide window, "Quit": exit the game.
-• *Refactored Gamev Over Image* : The game over image's configuration was changed to show up properly, since it was very zoomed in before. 
-• *Added Collision class": The levelParent was carrying too many responsibilities so I removed the collision logic and added it into the new class which helped in making the code more organized.
-• 
+1. Removed Observer class and added Property Change Listener to carry out all the tasks that Observer class used to do .
+2. *Refactored the Win Image*, I changed the position of the Win Image on the screen.
+3.  I attached the Shield Image to the Boss Plane.
+4.  *Package Organization*: The classes were arranged into packages according to how they are related.
+5. *Better Precision for the Level One*: The objects' heights were decreased to a certain height so the bullets would be hitting targets more precisely.
+6.  *Implemented FullScreenHandler*: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
+7. *Added Main Menu *: This class helps introduce my game to what it stands for and has  cool interactive buttons that are dynamic, rather than implementing a picture as a button. There are three different buttons that lead to "Play" button:Level One, "Guide To Play": Show Guide window, "Quit": exit the game.
+8.  *Refactored Gamev Over Image* : The game over image's configuration was changed to show up properly, since it was very zoomed in before. 
+9.  *Added Collision class": The levelParent was carrying too many responsibilities so I removed the collision logic and added it into the new class which helped in making the code more organized.
+10. *Added Pause Menu* and *Added a Pause Button*
 • 
 • 
 • 
@@ -46,13 +46,15 @@ and if possible, the steps you took to address them.
 • 
 
 
-• New Java Classes: Enumerate any new Java classes that you introduced for the
+## New Java Classes:
+ Enumerate any new Java classes that you introduced for the
 assignment. Include a brief description of each class's purpose and its location in the
 code.
-• Modified Java Classes: List the Java classes you modified from the provided code
+## Modified Java Classes: 
+List the Java classes you modified from the provided code
 base. Describe the changes you made and explain why these modifications were
 necessary.
-• Unexpected Problems: 
+##  Unexpected Problems: 
 Shield Image issues causing error boxes to show on the screen, even after changing the jpg to png.
 Solution: After a long time of debugging the issues, I fixed them .
 Transitioning from level one to level two, once the level one was done , the errors would show up and my IDE would crash fully.
