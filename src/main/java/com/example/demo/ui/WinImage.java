@@ -29,8 +29,8 @@ public class WinImage extends ImageView {
 		this.setVisible(false); // Initially hidden
 		this.setFitHeight(HEIGHT);
 		this.setFitWidth(WIDTH);
-		this.setLayoutX(xPosition);
-		this.setLayoutY(yPosition);
+		this.setLayoutX(500);
+		this.setLayoutY(200);
 	}
 
 	/**

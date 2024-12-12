@@ -49,7 +49,7 @@ public class ShieldImage extends ImageView {
 	}
 
 	/**
-	 * Updates the position of the shield to follow the object it is protecting.
+	 * Updates the position of the shield to follow the Boss.
 	 *
 	 * @param xPosition the new X coordinate for the shield
 	 * @param yPosition the new Y coordinate for the shield

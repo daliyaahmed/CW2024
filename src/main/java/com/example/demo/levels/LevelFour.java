@@ -23,7 +23,7 @@ public class LevelFour extends LevelParent {
     /**
      * Path to the background image for Level Four.
      */
-    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/l4background.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/LevelFourB.png";
 
     /**
      * Initial health of the player's plane.

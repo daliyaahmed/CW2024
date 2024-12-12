@@ -115,7 +115,7 @@ public class L4EnemyFactory {
      */
     public void spawnEnemies(double screenWidth, double screenHeight) {
         if (enemyUnits.size() < MAX_ENEMIES_ON_SCREEN) {
-            double initialXPos = screenWidth - 300;
+            double initialXPos = screenWidth - 400;
             double initialYPos = UPPER_BOUND + Math.random() * (LOWER_BOUND - UPPER_BOUND);
 
             // Randomly select enemy type, ensuring only allowed types are spawned
@@ -222,6 +222,8 @@ public class L4EnemyFactory {
                     projectile.takeDamage();
 
                     if (enemy.isDestroyed()) {
+                        System.out.println("Enemy destroyed: " + enemy.getClass().getSimpleName() + " at position X: "
+                                + enemy.getTranslateX() + ", Y: " + enemy.getTranslateY());
                         registerKill(enemy);
                         root.getChildren().remove(enemy);
                         enemyUnits.remove(enemy);
@@ -245,16 +247,19 @@ public class L4EnemyFactory {
 
         if (enemy instanceof BlueJet) {
             blueJetsKilled++;
+            System.out.println("Blue Jets killed:"+ blueJetsKilled);
             if (blueJetsKilled == 1) {
                 canSpawnBlueJets = false; // Stop spawning BlueJets
             }
         } else if (enemy instanceof WhiteJet) {
             whiteJetsKilled++;
+            System.out.println("White Jets killed:"+ whiteJetsKilled);
             if (whiteJetsKilled == 1) {
                 canSpawnWhiteJets = false; // Stop spawning WhiteJets
             }
         } else if (enemy instanceof GreenJet) {
             greenJetsKilled++;
+            System.out.println("Green Jets killed:"+ greenJetsKilled);
             if (greenJetsKilled == 1) {
                 canSpawnGreenJets = false; // Stop spawning GreenJets
             }

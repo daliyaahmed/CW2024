@@ -65,7 +65,6 @@ public abstract class ActiveActorDestructible extends ActiveActor {
 	protected void setDestroyed(boolean isDestroyed) {
 		this.isDestroyed = isDestroyed;
 	}
-
 	/**
 	 * Checks if the actor is destroyed.
 	 *
@@ -74,5 +73,4 @@ public abstract class ActiveActorDestructible extends ActiveActor {
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
-
 }

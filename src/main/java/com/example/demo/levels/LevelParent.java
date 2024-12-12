@@ -1,8 +1,8 @@
 package com.example.demo.levels;
 
-//import java.applet.AudioClip;
 import java.util.*;
 
+import com.example.demo.controller.GameInputHandler;
 import com.example.demo.physics.Collision;
 import com.example.demo.levels.views.LevelView;
 import com.example.demo.levels.views.LevelViewLevelFour;
@@ -12,19 +12,22 @@ import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.FighterPlane;
 import com.example.demo.actors.UserPlane;
 import com.example.demo.menus.RestartWindow;
+import com.example.demo.ui.ConfettiEffectManager;
+import com.example.demo.ui.ExplosionEffect;
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.*;
-import javafx.scene.input.*;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
+import static com.example.demo.controller.Main.getScreenHeight;
 
 //observer addition import
 
@@ -41,17 +44,6 @@ public abstract class LevelParent  {
 	 * Delay in milliseconds for each game loop iteration in the timeline.
 	 */
 	private static final int MILLISECOND_DELAY = 50;
-
-	/**
-	 * Tracks the last time the player received damage, used to implement a cooldown
-	 * for damage handling.
-	 */
-	private long lastDamageTime = 0;
-
-	/**
-	 * The cooldown time in milliseconds to prevent multiple rapid damage events.
-	 */
-	private static final long DAMAGE_COOLDOWN = 2000; // 2 seconds
 
 	/**
 	 * PropertyChangeSupport for notifying listeners of level transitions.
@@ -153,6 +145,7 @@ public abstract class LevelParent  {
 	 */
 	private final LevelView levelView;
 
+
 	/**
 	 * Audio clip for playing the sound effect when firing a projectile.
 	 */
@@ -166,11 +159,25 @@ public abstract class LevelParent  {
 	public final AudioClip backgroundSound = new AudioClip(
 			getClass().getResource("/com/example/demo/sounds/background.wav").toExternalForm()
 	);
-
+	public final AudioClip winSound = new AudioClip(
+			getClass().getResource("/com/example/demo/sounds/win.mp3").toExternalForm()
+	);
+	public final AudioClip loseSound = new AudioClip(
+			getClass().getResource("/com/example/demo/sounds/lose.mp3").toExternalForm()
+	);
 	/**
 	 * Tracks the current number of enemies active in the level.
 	 */
 	private int currentNumberOfEnemies;
+	/**
+	 * Input handler for managing user controls.
+	 */
+	private GameInputHandler inputHandler;
+	/**
+	 * Manages all projectiles in the game, including their creation, movement, and collisions.
+	 * Handles both user-fired and enemy-fired projectiles to ensure proper gameplay interactions.
+	 */
+
 	/**
 	 * Constructs a new {@code LevelParent} instance.
 	 *
@@ -180,6 +187,7 @@ public abstract class LevelParent  {
 	 * @param playerInitialHealth the initial health of the user plane
 	 * @param stage               the primary stage of the application
 	 */
+
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth,  Stage stage) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
@@ -217,6 +225,7 @@ public abstract class LevelParent  {
 					() -> timeline.play(), // Resume callback
 					stage
 			);
+
 			this.levelViewLevelThree = new LevelViewLevelThree(root,5);
 			this.levelViewLevelFour = new LevelViewLevelFour(root,10);
 	}
@@ -294,6 +303,7 @@ public abstract class LevelParent  {
 		levelViewLevelFour.addPowerUpElementsToRoot();
 		updateActors();
 		generateEnemyFire();
+
 		updateNumberOfEnemies();
 		// Use CollisionManager for all collision-related logic
 		collision.handleEnemyPenetration();
@@ -320,20 +330,11 @@ public abstract class LevelParent  {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
 		background.setFitWidth(screenWidth);
-		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP) user.moveUp();
-				if (kc == KeyCode.DOWN) user.moveDown();
-				if (kc == KeyCode.SPACE) fireProjectile();
-			}
-		});
-		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP || kc == KeyCode.DOWN ) user.stop();
-			}
-		});
+		// Create input handler with a method reference to fireProjectile
+		this.inputHandler = new GameInputHandler(user, this::fireProjectile);
+		// Set the event handlers using the new input handler
+		background.setOnKeyPressed(inputHandler.getKeyPressedHandler());
+		background.setOnKeyReleased(inputHandler.getKeyReleasedHandler());
 		root.getChildren().add(background);
 		// Replace the pause button creation in initializeBackground
 		Button pauseButton = pauseMenuState.createPauseButton();
@@ -349,6 +350,7 @@ public abstract class LevelParent  {
 		root.getChildren().add(projectile);
 		userProjectiles.add(projectile);
 	}
+
 	/**
 	 * Spawns enemy projectiles.
 	 */
@@ -361,6 +363,19 @@ public abstract class LevelParent  {
 			}
 		});
 	}
+	/**
+	 * Spawns an enemy projectile by adding it to the root group and tracking it in the enemy projectile list.
+	 *
+	 * @param projectile the {@link ActiveActorDestructible} projectile fired by an enemy unit
+	 */
+	public void spawnEnemyProjectile(ActiveActorDestructible projectile) {
+		if (projectile != null) {
+			root.getChildren().add(projectile);
+			enemyProjectiles.add(projectile);
+		}
+	}
+
+
 
 	/**
 	 * Gets the {@link LevelView} instance associated with this level.
@@ -371,25 +386,16 @@ public abstract class LevelParent  {
 	protected LevelView getLevelView() {
 		return levelView;
 	}
-	/**
-	 * Spawns a new enemy projectile if it exists.
-	 *
-	 * @param projectile the projectile to spawn
-	 */
-	private void spawnEnemyProjectile(ActiveActorDestructible projectile) {
-		if (projectile != null) {
-			root.getChildren().add(projectile);
-			enemyProjectiles.add(projectile);
-		}
-	}
+
+
 	/**
 	 * Updates all actors in the scene.
 	 */
 	private void updateActors() {
-		friendlyUnits.forEach(plane -> plane.updateActor());
-		enemyUnits.forEach(enemy -> enemy.updateActor());
-		userProjectiles.forEach(projectile -> projectile.updateActor());
-		enemyProjectiles.forEach(projectile -> projectile.updateActor());
+		friendlyUnits.forEach(ActiveActorDestructible::updateActor);
+		enemyUnits.forEach(ActiveActorDestructible::updateActor);
+		userProjectiles.forEach(ActiveActorDestructible::updateActor);
+		enemyProjectiles.forEach(ActiveActorDestructible::updateActor);
 	}
 	/**
 	 * Removes all destroyed actors from the scene and root.
@@ -428,6 +434,9 @@ public abstract class LevelParent  {
 		timeline.stop();
 		levelView.showWinImage();
 		backgroundSound.stop();
+
+		winSound.play();
+		showConfettiEffect();
 		// Add a delay of 10 seconds before showing the restart options
 		new Thread(() -> {
 			try {
@@ -442,12 +451,27 @@ public abstract class LevelParent  {
 		}).start();
 	}
 	/**
+	 * Displays a confetti effect on the screen.
+	 */
+	private void showConfettiEffect() {
+		ConfettiEffectManager confettiManager = new ConfettiEffectManager(root, screenWidth, screenHeight);
+		confettiManager.showConfettiEffect();
+	}
+	/**
 	 * Handles logic when the game is lost, including stopping the timeline
 	 * and displaying a game-over image.
 	 */
 	protected void loseGame() {
 		timeline.stop();
 		levelView.showGameOverImage();
+		backgroundSound.stop();
+		loseSound.play();
+
+		// Generate an explosion effect at the center of the screen
+		ExplosionEffect explosionEffect = new ExplosionEffect(root);
+
+
+		explosionEffect.showExplosionsAcrossScreen(10, screenWidth, screenHeight);
 
 	}
 	/**

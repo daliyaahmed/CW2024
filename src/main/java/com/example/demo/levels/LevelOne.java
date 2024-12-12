@@ -29,7 +29,7 @@ public class LevelOne extends LevelParent {
 	/**
 	 * Number of kills required to advance to the next level.
 	 */
-	private static final int KILLS_TO_ADVANCE = 5;
+	private static final int KILLS_TO_ADVANCE = 10;
 
 	/**
 	 * Probability of spawning an enemy in each frame.

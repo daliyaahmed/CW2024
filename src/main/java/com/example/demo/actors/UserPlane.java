@@ -110,7 +110,7 @@ public class UserPlane extends FighterPlane {
 		VERTICAL_VELOCITY = 100;
 
 		// Grace period ends after 20 seconds
-		PauseTransition powerUpTimer = new PauseTransition(Duration.seconds(20));
+		PauseTransition powerUpTimer = new PauseTransition(Duration.seconds(30));
 		powerUpTimer.setOnFinished(event -> {
 			VERTICAL_VELOCITY = 8; // Reset velocity
 			isPowerUpActive = false;
@@ -181,5 +181,6 @@ public class UserPlane extends FighterPlane {
 	public void incrementKillCount() {
 		numberOfKills++;
 	}
+
 
 }
