@@ -1,250 +1,155 @@
+# Game Development Documentation
+
 ## Author:
 Daliya Safdar Ahmed
 
 ## GitHub:
-https://github.com/daliyaahmed/CW2024
+[GitHub Repository](https://github.com/daliyaahmed/CW2024)
 
+---
 
 ## Compilation Instructions
 
+1. *Install IntelliJ IDEA Community* if not already installed.  
+2. *Open Project* in IntelliJ via `File > Open...`.  
+3. *Load Maven Dependencies*: IntelliJ auto-loads dependencies. If not, click the Maven tool window and refresh.  
+4. *Set Correct JDK*: Ensure the project uses a compatible JDK (Java 8+).  
+5. *Build Project*: Select `Build > Build Project`.  
+6. *Run Application*: Click the green Run button or press `Shift + F10`.  
+7. *Play the Game*: The game window will open. Enjoy!  
 
-1. *Install IntelliJ IDEA Community* if not already installed.
-2. *Open Project* in IntelliJ via File > Open....
-3. *Load Maven Dependencies*: IntelliJ auto-loads dependencies. If not, click the Maven tool window and refresh.
-4. *Set Correct JDK*: Ensure the project uses a compatible JDK (Java 8+).
-5. *Build Project*: Select Build > Build Project.
-6. *Run Application*: Click the green Run button or press Shift + F10.
-7. *Play the Game*: The game window will open. Enjoy!
-*Dependencies*: Maven for dependencies, JavaFX for UI.
+### Dependencies:
+- **Maven** for dependency management.  
+- **JavaFX** for UI components.  
 
+---
 
-##  Implemented and Working Properly: 
+## Implemented and Working Properly
 
-1. *Added Propertty Change Listener*:  Removed Observer class and added Property Change Listener to carry out all the tasks that Observer class used to do .
-2. *Attached Shield to Boss*: I attached the Shield Image to the Boss Plane.
-3.  *Added Main Menu *: This class helps introduce my game to what it stands for and has  cool interactive buttons that are dynamic, rather than implementing a picture as a button. There are three different buttons that lead to "Play" button:Level One, "Guide To Play": Show Guide window, "Quit": exit the game.
+1. *Added Property Change Listener*: Removed `Observer` class and added `PropertyChangeListener` to carry out all the tasks that `Observer` class used to do.  
+2. *Attached Shield to Boss*: Attached the shield image to the boss plane.  
+3. *Added Main Menu*: Introduced a main menu with interactive buttons:  
+   - `Play` button: Starts Level One.  
+   - `Guide To Play`: Displays the guide window.  
+   - `Quit`: Exits the game.  
+4. *Added Collision Class*: Refactored collision logic from `LevelParent` into a dedicated `Collision` class, improving code organization.  
+5. *Added Pause Menu and Pause Button*: Introduced a pause menu with options:  
+   - `Resume`: Resumes gameplay.  
+   - `Quit`: Returns to the main menu.  
+6. *Added Level Banners*: Displays GIF animations at the start of each level.  
+7. *Resume Countdown*: Displays a `3, 2, 1` countdown in neon and arcade-style font upon resuming the game.  
+8. *Added Level Three*: Players must destroy 15 PAF planes to advance to the next level.  
+9. *Added Power-Up Button*: Enables maximum user plane speed for 20 seconds in Levels 3 and 4.  
+10. *Added PAF Plane Object Pool*: Implemented object pooling to manage enemy planes in Level 3, optimizing memory usage.  
+11. *Added Enemy Missiles for PAF Plane*: Included missiles with enhanced UI visuals.  
+12. *Added Kill Count*: Tracks and displays the number of enemies shot down (not applicable in Level 4).  
+13. *Added Level Four*:  
+    - Features three types of fast-moving enemies (Blue Jets, White Jets, Green Jets).  
+    - Players must destroy 4 of each type within 60 seconds.  
+    - Increased user health to 10 for this challenging level.  
+14. *Added Countdown Timer*: Displays a neon-styled countdown timer for Level Four (does not pause).  
+15. *Added Level 4 Enemy Factory*: Handles enemy logic in Level Four.  
+16. *Added Restart Window*: Displays options to restart from any level or quit the game, featuring randomized blood splatter effects.  
+17. *Blood Splatter Effects*: Randomized patterns for added visual variety.  
+18. *Arcade-like Font*: Implemented \"Astroz\" font for an authentic retro gaming feel.  
+19. *Added Sounds*:  
+    - Background music.  
+    - Shooting sound effects.  
+20. *Confetti in Win State*: Confetti falls from the top of the screen upon victory.  
+21. *Victory Sounds*: Introduced clapping sounds to celebrate wins.  
+22. *Multiple Explosions in Lose State*: Displays 10 explosions randomly across the screen when the player loses.  
 
-4. *Added Collision class": The levelParent was carrying too many responsibilities so I removed the collision logic and added it into the new class which helped in making the code more organized.
-5. *Added Pause Menu* and *Added a Pause Button* : The pause menu shows two options : Resume and Quit , Resume will go back to the game and continue and Quit will lead you to the Main Menu. 
-6. *Added Level Banners*: The level banners display a gif animation that appears when the level starts.
-7. *ResumeCountDown *: Once you click Resume button, a 3,2,1 countdown displays in the center of the screen with the neon and arcadic font which I will mention later.
-8. *Added Level Three*: In which the user will have to kill 15 pafplanes to win the level and move on to the next. 
-9. *Added PowerUp button*: This powerUP button was added in both Level 3 and 4 to help the user with the immense difficulty of these levels. Once the button is clicked, the user plane will be able to MAX out on speed rather than usual speed for 20 seconds.
-10. *Added PafPlane Object pool*: Instead of creating new instances, I decided to apply the object pooling method for the enemies (PafPlane) in level 3. This way the storage will not go out of memory and heap space will be secured 
-11. *Added Enemy Missiles for PafPlane* :This feature is incredibly favorite ui feature.
-12. *Added Kill Count* : The kill count feature counts all the enemies that have been shot down. In Level Four, it is not included.
-13. *Added Level 4* : In level 4, There are three different enemies and they are extremenly fast when it comes to moving directions, so often then not they usually dodge user bullets a lot which makes my level very hard to play. The user will have kill atleast 4 Blue Jets, 4 White Jets, and 4 Green Jets in a matter of only 60 seconds. Since it is very intense, user helath is increased to 10. 
-14. *Added CountDown Timer*: The countdown timer works and udpates and is very cool like font and neon gold color glow. The porblem with this is when pause is clicked the countdown timer will continue and not pause, but over than that the functionality is working perfectly.
-15. *Added Level 4 Enemy Factory* : It handles all the enemy logic since a lot is happening, it needed to have factory method to take care of everything.
-16. *Added Restart window*: Once user wins the game, a window will show up that will give you options to go either to level one, two , three, four, or quit. It also shows a cool blood splatter on the screen. 
-17. *Blood Splatter*: I did that using the shapes to display that look and made sure that the circles were randomized, so every time the Restart window displays user gets a different blood splatter pattern.
-18. *Arcade-like Font*: I added Astroz font for my whole game. It amplified my whole gaming experience.
-19. *Added Sounds*: I added an upbeat background sound and when user fires a projectile, I added a cool shooting sound. 
-20. *Added Confetti in Win Image*: Once the winImage is displayed, the circles meaning the confetti will drop from the top of the screen.
-21. *Added Sounds in Win Image*: I added a huge crowd clapping sound to celebrate you winning the game.
-22. *Added multiple explosions in Lose Game*: Once the loseGame is displayed, in multiple places in the screen there will be 10 explosions taking place.
+---
 
+## Implemented but Not Working Properly
 
+1. *Banners Overlap with Bullets and Planes*.  
+2. *Countdown Timer Issue*: In Level Four, the timer continues even when the game is paused.  
+3. *Lose Game Sound*: Initially caused issues with user health and was removed.  
+4. *Level 3 Experimental Design*:  
+   - Introduced a mini-game with bombs, power-ups, and tornadoes.  
+   - Ultimately removed due to significant issues.  
 
-## Implemented but Not Working Properly: 
-1. Banners overlap with the bullets and planes 
-2. In level four, when the pause button is pressed, the time remaining doesn't stop other than that it works. 
-3. I added a loseGame sound , but it ended up messing with my user's health, so i removed it.
-4. I added a Level 3 in which bombs and powerups would be falling from the sky and tornado was happening at the same time. The goal of that level was to collect 5 power-ups like a mini game break, but it was deemed unsuccessful due to the immense issues I experienced with it .
-   
+---
 
+## Features Not Implemented
 
-## Features Not Implemented: 
-1. *User's Shield*: User's shield will help protect the user form the enemies' projectiles. 
-Not Implemented due to time constraints.
-2. *Explosion* : When user plane and enemy plane collide, an explosion will occur between them. 
-Not Implemented due to time constraints
-3. *Tornado* : I tried adding a tornado using circles, but I was receiving heap out of storage errors, so I removed it.
-4. *Player Designed Bosses*: Let players design their own bosses using resources collected in the game.
-5. *Black Hole Power Up*: A power-up that creates a black hole, sucking in enemies, projectiles, and maybe even the player if they’re too close.
-6. *Hidden Level Triggers*:Add secret actions to unlock hidden levels or bosses: Destroy a certain number of objects in a specific pattern and find a hidden symbol on the battlefield.
-7. *Zombie Mode* :Add a zombie apocalypse version where destroyed planes rise again as zombie planes with erratic movements and attacks.
+1. *User's Shield*: A protective shield to block enemy projectiles.  
+2. *Explosion Animation*: Planned for when user and enemy planes collide.  
+3. *Tornado Effect*: Attempted but caused heap storage errors.  
+4. *Player-Designed Bosses*: Allow players to design their own bosses.  
+5. *Black Hole Power-Up*: Creates a black hole, sucking in enemies and projectiles.  
+6. *Hidden Level Triggers*: Unlock secret levels or bosses by completing hidden objectives.  
+7. *Zombie Mode*: Destroyed planes resurrect as zombie planes with erratic movements.  
 
- 
+---
 
+## New Java Classes
 
-## New Java Classes:
-**FullScreenHandler class**: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
+1. **FullScreenHandler**: Resizes the stage when the game opens for better screen handling.  
+2. **PafPlane**: Specialized enemy plane inspired by the Pakistani Air Force (Level 3).  
+3. **PafPlanePool**: Implements object pooling for PAF planes.  
+4. **BlueJet**: Enemy plane in Level Four with vertical movement and projectile firing.  
+5. **GreenJet**: Similar to BlueJet but with unique behaviors.  
+6. **WhiteJet**: Level Four enemy with random projectile firing rates.  
+7. **L4EnemyFactory**: Manages enemy logic in Level Four.  
+8. **MainMenu**: Handles the main menu interface with dynamic buttons.  
+9. **Level Banners**: Manages GIF animations at the start of each level.  
+10. **Level View**: Implements unique UI elements for Levels 3 and 4.  
+11. **PauseMenuState**: Manages pause menu interactions.  
+12. **RestartWindow**: Displays game-over options and visual effects.  
+13. **Collision**: Handles all collision logic.  
+14. **Projectile Classes**: Includes specialized projectiles for each enemy type.  
+15. **PowerUpManager**: Manages activation and deactivation of power-ups.  
+16. **ActorManager**: Centralizes actor management and interactions.  
+17. **GameInputHandler**: Processes keyboard input for the user's plane.  
+18. **ConfettiEffectManager**: Creates celebratory confetti animations.  
 
-**PafPlanes class**:
-The PafPlane class represents a specialized enemy plane in Level 3 of the game, serving as an Easter egg inspired by the Pakistani Air Force (PAF). This class extends the FighterPlane class and introduces unique features and behaviors tailored for the level's gameplay dynamics.
-Location: com.example.demo.actors.l3enemies.PafPlane
-**PafPlanePool class**:
- Implements an object pool for managing PafPlane instances, enabling efficient reuse of these objects to optimize performance and memory usage during gameplay.
- Location:com.example.demo.actors.l3enemies.PafPlanePool
-**BlueJet class**:
- Represents a level four enemy plane that moves vertically between specified bounds and fires projectiles at a predefined rate. This class includes customizable movement bounds, damage handling, and projectile firing logic tailored for level four gameplay.
- Location:com.example.demo.actors.l4enemies.BlueJet
-**GreenJet class**:
- Represents a level four enemy plane that moves vertically within specified bounds and fires projectiles at a defined rate. It includes functionality for customizable movement limits, projectile firing, and damage handling tailored to enhance level four gameplay.
-**WhiteJet class**:
-Represents a level four enemy plane that moves vertically within defined bounds and fires projectiles at a random firing rate. It is designed to challenge players with dynamic movement and targeted projectile attacks while handling damage and state updates efficiently.
-Location:com.example.demo.actors.l4enemies.WhiteJet
-**L4EnemyFactory class**:
-Manages the creation, spawning, and behavior of enemies for level 4 of the game, including handling collisions and win conditions. It supports spawning three enemy types (BlueJet, WhiteJet, and GreenJet), tracks enemy kills, and determines when the level is complete.
-Location:
-**Main Menu class**:
- The MainMenu class manages the main menu interface of the game, providing options to play, view a guide, or quit the application. It features a visually engaging design with a fullscreen background, neon-styled buttons, and dynamic resizing for different screen dimensions.
-**LevelFourBanner class**:
-The LevelFourBanner class handles the display of a visually engaging Level Four banner at the start of the level, including smooth fade-in animations for better aesthetics. It centers the banner on the screen and automatically removes it after a brief display duration, ensuring seamless gameplay transitions.
-**LevelThreeBanner class**:
-The LevelThreeBanner class handles the display of a visually engaging Level Three banner at the start of the level, including smooth fade-in animations for better aesthetics. It centers the banner on the screen and automatically removes it after a brief display duration, ensuring seamless gameplay transitions.
-**LevelTwoBanner class**:
-The LevelTwoBanner class handles the display of a visually engaging Level Two banner at the start of the level, including smooth fade-in animations for better aesthetics. It centers the banner on the screen and automatically removes it after a brief display duration, ensuring seamless gameplay transitions.
-**LevelOneBanner class**:
-The LevelOneBanner class handles the display of a visually engaging Level One banner at the start of the level, including smooth fade-in animations for better aesthetics. It centers the banner on the screen and automatically removes it after a brief display duration, ensuring seamless gameplay transitions.
-**LevelViewLevelThree class**:
- The LevelViewLevelThree class manages the visual elements and power-up system specific to Level Three, including the display of a power-up button and counter. It integrates power-up logic and ensures these elements are properly added to the game interface for enhanced gameplay.
-**LevelViewLevelFour class**:
-The LevelViewLevelFour class manages the UI elements and gameplay features specific to Level Four, including a countdown timer and power-up elements. It provides functionality for starting and stopping the timer, styling the countdown display, and dynamically positioning it on the screen.
-**LevelFour class**:
-The LevelFour class defines the gameplay mechanics and elements specific to Level Four, including enemy spawning, power-up management, and a countdown timer. It integrates a banner display at the start, handles game-over conditions, and provides a dynamic environment for the player's interactions with enemies and power-ups.
-**LevelThree class**:
-The LevelThree class represents the third level of the game, featuring enemy spawning using an object pool for PafPlane units and a power-up system for the player. It includes logic for transitioning to the next level once the player meets the kill target and displays a unique banner and background for this stage.
-**PauseMenuState class**:
-The PauseMenuState class manages the pause menu in the game, allowing players to pause, resume, or quit the current level. It includes visually styled buttons, overlays, and animations for smooth transitions between paused and resumed states.
-**Restart Window**:
-The RestartWindow class handles the game-over screen, allowing players to restart specific levels or quit the game. It features visually styled buttons, a blood splatter background effect, and dynamic level loading for seamless transitions.
-**Collision class**:
-The Collision class manages collision detection and resolution between game entities, including the player's plane, friendly units, enemy units, and projectiles. It handles various interactions such as projectile hits, plane collisions, and enemy penetration beyond defenses, ensuring appropriate damage and state updates.
-**BlueJetProjectile class**:
-The BlueJetProjectile class represents a projectile fired by a Blue Jet in the game, characterized by its specific image, size, and movement speed. It moves horizontally at a fixed velocity and updates its position accordingly during gameplay.
-**GreenJetProjectile class**:
-The GreenJetProjectile class represents the projectile fired by Green Jet enemies in the game, featuring a specific image, size, and movement speed. It moves horizontally at a fixed velocity and updates its position dynamically during gameplay.
-**PafProjectile class**:
-The PafProjectile class represents a projectile fired by PAF jets in the game, characterized by its unique image, size, and horizontal movement. It updates its position dynamically at a fixed horizontal velocity to simulate realistic motion during gameplay.
-**WhiteJetProjectile class**:
-The WhiteJetProjectile class represents a projectile fired by white jets in the game, defined by its specific image, size, and horizontal velocity. It dynamically updates its position by moving at a fixed velocity, simulating its motion during gameplay.
-**PowerUpManager class**:
-The PowerUpManager class manages the PowerUp functionality in the game, including a button for activation, a counter for remaining PowerUps, and a timer to deactivate the PowerUp after a set duration. It ensures proper display and interaction with PowerUps while handling activation and deactivation logic seamlessly.
-**ActorManager class**:
-The ActorManager class is responsible for managing the lifecycle and interactions of various game actors, including friendly units, enemy units, and projectiles. It facilitates updating actor states, handling collisions, and removing destroyed actors while maintaining a centralized management system for all active game entities in the scene.
-**GameInputManager class**:
-The GameInputHandler class processes keyboard input to control the movement and actions of the player's plane in the game. It manages key press and release events to enable actions like moving the plane up or down and firing projectiles.
-**ProjectileManager class**: 
-The ProjectileManager class handles the creation, management, and rendering of projectiles fired by both the player and enemy units in the game. It tracks user and enemy projectiles, adds them to the scene for visualization, and facilitates the firing of projectiles by enemy units such as fighter planes.
-**ConfettiEffectManager class**:
-The ConfettiEffectManager class is responsible for creating and animating confetti effects on the game screen. It generates colorful particles with randomized positions, movements, and rotations, adding a celebratory visual element to enhance the user experience.
+---
 
+## Modified Java Classes
 
+1. **Active Actor**: Refactored into an `actors` package.  
+2. **Active Actor Destructible**: Added a `notDestroy()` method to reset destruction state and removed the unnecessary `Destructible` interface.  
+3. **Boss**:  
+   - Introduced shield mechanics with cooldowns.  
+   - Adjusted health and added logging for better debugging.  
+4. **l1EnemyPlane**:  
+   - Reduced image height from 150 to 50 for better precision.  
+5. **FighterPlane**:  
+   - Added a boolean flag to prevent destruction if already destroyed.  
+   - Adjusted health comparison logic to fix bugs.  
+6. **UserPlane**:  
+   - Reduced image size for improved hitbox accuracy.  
+   - Added a `PowerUpActive` boolean flag to handle power-up functionality.  
+7. **Controller**:  
+   - Integrated `FullScreenHandler`.  
+   - Replaced the deprecated `Observer` with `PropertyChangeListener`.  
+8. **Main**:  
+   - Adjusted screen dimensions.  
+   - Added looping background sound.  
+9. **LevelParent**:  
+   - Added confetti for the win state.  
+   - Refactored collision logic to a new `Collision` class.  
+10. **LevelTwo**:  
+    - Fixed transition issues.  
+    - Added shields and initialization for new elements.  
+11. **Projectile Classes**: Adjusted image sizes and cropped unnecessary whitespace.  
+12. **GameOverImage & WinImage**: Updated display positions for better visuals.  
 
-## Modified Java Classes: 
-**Active Actor**:
-Refactoring: Active Actor was shifted into an "actors" package. Active Actor's code did not change overall.
-**Active Actor Destructible**:
-I added a method(notDestroy()) to reset the destroyed state of the actor to false.
-Destructible interface was deleted as it served no purpose. ActiveActor Destructible does not extend to Destructible anymore.
-**Boss** class:
- Introduced a ShieldImage instance to visually represent the shield when active.
-Added a shieldImage field.
-Added initialization for shieldImage in the constructor.
-Updated the updatePosition method to synchronize the shieldImage position with the boss's position when the shield is active.
-Enhanced activateShield and deactivateShield methods to manage the visibility of the ShieldImage.
+---
 
-Cooldown Mechanism:
+## Unexpected Problems
 
-Original Code: The shield activation was only probabilistic (BOSS_SHIELD_PROBABILITY) without cooldown logic.
-Modified Code: Introduced a cooldown period for the shield.
-Added SHIELD_COOLDOWN_FRAMES to specify the cooldown duration.
-Added shieldCooldownFramesRemaining to track the remaining cooldown time.
-Updated updateShield to decrement the cooldown counter and prevent activation during the cooldown period.
-Visibility Management: Updated updateShield to adjust the position of the shieldImage to follow the boss.
-Increased BOSS_SHIELD_PROBABILITY to 0.50, making the shield activation more frequent for demonstration purposes.
-Reduced HEALTH to 1, possibly for easier testing of boss defeat and mechanics.
+1. *Shield Image Issues*: Error boxes appeared on the screen.  
+   **Solution**: Fixed by converting image formats and debugging.  
+2. *Level Transition Crashes*: IDE crashed during transitions between levels.  
+   **Solution**: Added flags to prevent infinite loops.  
+3. *Precision Issues in Level One*: Bullets were not hitting targets accurately.  
+   **Solution**: Reduced object heights and cropped image whitespace.  
 
-Method Enhancements
-updatePosition:
+---
 
-Original Code: Only updated the boss's position based on its move pattern.
-Modified Code: Added logic to update the position of the shieldImage when the shield is active.
-updateShield:
+## Final Notes
+This README provides an extensive overview of the game, including implemented features, unresolved issues, and future possibilities. Follow the instructions above to enjoy the game!  
 
-Original Code: Only activated or deactivated the shield based on probability and duration.
-Modified Code: Added cooldown tracking, shield visibility updates, and positional synchronization for shieldImage.
-Minor Refactoring:
-Added getShieldImage() method to allow external access to the shieldImage instance.
-Added a getBossHealth() method to retrieve the boss’s health explicitly.
-Improved logging and debugging:
-Added a log message ("TAKE DAMAGE BOSS EDITION") when the boss takes damage.
-Added a log message ("Shield is off") when the shield is deactivated.
-Class was shifted to an "actors" package
-**l1EnemyPlane** previously named as **EnemyPlane**
-Class was shifted to "actors" package
-The image height was decreased to 50 from 150.
-**FighterPlane class**:
-A boolean flag was added to check if the actor is not destroyed in the if condition with health at zero condition.
-The healthAyZero method is changed from it returns health == 0 to it returns health<=0.
-The reason for this change is when I was adding the collision logic and spawning logic for Level 4, there were problems with how the enemies' health were decreasing less than zero and it didn't destroy the enemy right away.
-**UserPlane**:
-Refactoring: The image height waas lowered from 150 to 50
-Also, the image itself was cropped to be more precise hitbox to remove the unnecessary whitespace.
-A boolean flag is PowerUpActive added, and the PowerUp method is activated to make sure that velocity is to the highest velocity 100 for 30 seconds.
-**Controller**:
-The fullScreenHandler class is being used in this class to make sure when the game launches the full screen will be applied.
-Since Observer was deprecated, I replaced it with Property Change Listener to ensure compliance with current standards, avoiding potential future removal and maintenance issues.
-**Main** :
-The screen width and height variables were changed from 1300 and 750 to 1500 and 800. 
-The background sound was included and looped to inifite. 
-The main menu was added and linked to main class.
-**LevelView**:
-The Loss screen X and Y coordiantes were changed from -160 and -395 to 50 and -400.
-The killCount feature was added and a method updateKillCOuntPos to update the kill count position and a method to update Kill Count.
-In the showGameOverImage, there was an if condition added to make sure that the image was in the root or not.
-The class was first added to the "levels" package then "views" package was added to levels page so then this class was added to the views package.
-**LevelViewLeveTwo**:
-The code was never modified but the class was shifted to "views" package.
-**LevelTwo** :
-I removed the next level variable due to an issue I was having when implementing the restart window when you click back to the any level, the kill counts are not being checked with the required amount of kills 
-and it was never transitioning to the next level after meeting the kills required.
-In the start, I was having issues with the level transition from level 1 to level 2, so I added a boolean flag and add a condition in the initializeScene method that if levelTransition is already done then dont go back to the level transition code again.
-The initializeScene method was added which handles the scene and the level banner being displayed.
-There was a getter method to next level added from a superclass.
-**LevelParent**:
-First of all, I added sounds to win game, lose game, background used to stop when winGame shows, and fire projectiles sounds.
-I added confetti dropping from the top of the screen in the winGame state using circles.
-
-Then, I refactored the collision logic in levelParent to a new class called Collision.
-After I added the pauseMenu in the levelParent, I refactored the code to take pauseMenu logic into a new class called PauseMenuState.
-Earlier we talked about the change from observer to pcs, in the goToNextLevel method, I changed the observer logic to property change listener. Also, I added an addPropertyChangeListener method.
-Then, I refactored the input handler logic and shifted it to a new class called inputHandler.
-I added a pause button in the code and it is handled by a PauseMenuState class.
-I added a getter method for levelView.
-Finally, I added a method to update the kill count in this class.
-**LevelTwo**:
-I added the same levelTransitioned and bannerDisplayed logic into level 2. Also, I added initialize scene method.
-I called the showShield function in levelView in LevelTwo.
-I had great difficulties dealing with the shield image.
-**EnemyProjectile**:
-The only modification I did was to decreasing the height of the image and manually crop out the whitespaces of the projectile to get a more precise aim to the planes.
-Also package shift
-**Projectile** class's only modification was that it shifted to a new package called "projectiles".
-**UserProjectile** 
-The only modification I did was to decreasing the height of the image and manually crop out the whitespaces of the projectile to get a more precise aim to the planes.
-Also package shift
-**GameOverImage**:
-Refactored Game Over Image : The game over image's configuration was changed to show up properly, since it was very zoomed in before. 
-The X and Y coordinates were given  fixed values according to the screen and also scaled down the image to 50% of its orignal size.
-**HeartDisplay** class's only modification was that it shifted to a new package called "UI".
-**ShieldImage**: 
-A boolean flag was added for checking if the shield on or not.
-I changed the first setVisible method from false to true to make sure it is visisble from the start.
-ShowShield method has been modified to use the boolean flag if the shield is not on then it sets visible method to true.
-An updatePosition method has been added for the position of the shield to follow the boss.
-**WinImage**: 
-I added fixed values for the WinImage X and Y positions to 500 and 200 respectively.
-
-*Implemented FullScreenHandler*: This class helps resize the stage the second the game opens, helped my game have a singular class dealing with the Screen Height and Width logic to lessen the issues that I was dealing with throughout the game.
-*Better Precision for Level One*: The objects' heights were decreased to a certain height so the bullets would be hitting targets more precisely.
-*Package Organization*: The classes were arranged into packages according to how they are related.
-*Refactored the Win Image*, I changed the position of the Win Image on the screen.
-
-##  Unexpected Problems: 
-Shield Image issues causing error boxes to show on the screen, even after changing the jpg to png.
-Solution: After a long time of debugging the issues, I fixed them .
-Transitioning from level one to level two, once the level one was done , the errors would show up and my IDE would crash fully.
-Solution: Added a flag to check if levelTransition happened to make sure that it doesn't run the same loop a thousand times.
