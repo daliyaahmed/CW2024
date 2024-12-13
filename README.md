@@ -13,7 +13,7 @@ Daliya Safdar Ahmed
 1. *Install IntelliJ IDEA Community* if not already installed.  
 2. *Open Project* in IntelliJ via `File > Open...`.  
 3. *Load Maven Dependencies*: IntelliJ auto-loads dependencies. If not, click the Maven tool window and refresh.  
-4. *Set Correct JDK*: Ensure the project uses a compatible JDK (Java 8+).  
+4. *Set Correct JDK*: Ensure the project uses a compatible JDK (Java 19+).  
 5. *Build Project*: Select `Build > Build Project`.  
 6. *Run Application*: Click the green Run button or press `Shift + F10`.  
 7. *Play the Game*: The game window will open. Enjoy!  
@@ -91,46 +91,52 @@ Daliya Safdar Ahmed
 
 1. **FullScreenHandler**: 
 This class helps resize the stage the second the game opens, helping the game have a singular class dealing with the screen height and width logic.  
-
+Location: `com.example.demo.ui.FullScreenHandler`
 2. **PafPlane**: 
 Represents a specialized enemy plane in Level 3 of the game, inspired by the Pakistani Air Force.  
-
+Location: `com.example.demo.actors.l3enemies.PafPlane`
 3. **PafPlanePool**: Implements an object pool for managing PAF plane instances, optimizing performance and memory usage.  
-
+Location: `com.example.demo.actors.l3enemies.PafPlanePool`
 4. **BlueJet**: Represents a Level Four enemy plane with vertical movement and projectile firing.  
-
+Location: `com.example.demo.actors.l4enemies.BlueJet`
 5. **GreenJet**: Similar to BlueJet, featuring vertical movement and unique projectile firing. 
- 
+Location: `com.example.demo.actors.l4enemies.GreenJet`
 6. **WhiteJet**: Represents a Level Four enemy plane with random firing rates and dynamic behavior.  
-
+Location: `com.example.demo.actors.l4enemies.WhiteJet`
 7. **L4EnemyFactory**: Manages the creation and behavior of enemies for Level Four.  
-
+Location: `com.example.demo.actors.l4enemies.L4EnemyFactory`
 8. **MainMenu**: Manages the main menu interface with interactive buttons for starting, quitting, and displaying the game guide.  
-
+Location: `com.example.demo.controller.MainMenu`
 9. **LevelOneBanner**: Handles the display of the level one banner with smooth animations at the start of each level. 
-   
+Location: `com.example.demo.levels.banners.LevelOneBanner`
 10. **LevelTwoBanner**: Handles the display of the level two banner with smooth animations at the start of each level. 
- 
+Location: `com.example.demo.levels.banners.LevelTwoBanner`
+10. **LevelThirdBanner**: Handles the display of the level three banner with smooth animations at the start of each level. 
+Location: `com.example.demo.levels.banners.LevelThreeBanner`
+10. **LevelFourBanner**: Handles the display of the level four banner with smooth animations at the start of each level. 
+Location: `com.example.demo.levels.banners.LevelFourBanner`
 11. **Level View**: Manages UI elements and gameplay-specific features for Levels Three and Four. 
- 
+Location: `com.example.demo.levels.views.LevelViewLevelThree`
+Location: `com.example.demo.levels.views.LevelViewLevelFour`
 12. **PauseMenuState**: Handles the pause menu functionality, including options to resume or quit the game.  
-
+Location: `com.example.demo.menus.PauseMenuState`
 13. **RestartWindow**: Displays options to restart specific levels or quit the game with a blood splatter background effect. 
- 
+Location: `com.example.demo.menus.RestartWindow`
 14. **Collision**: Handles collision detection and resolution between game entities like planes, projectiles, and enemies.  
-
+Location: `com.example.demo.physics.Collision`
 15. **Projectile Classes**: Specialized classes for BlueJet, GreenJet, WhiteJet, and PAF projectiles, each with unique behaviors.  
-
+Location: `com.example.demo.projectiles.BlueJetProjectile`
+Location: `com.example.demo.projectiles.GreenJetProjectile`
+Location: `com.example.demo.projectiles.WhiteJetProjectile`
+Location: `com.example.demo.projectiles.PafProjectile`
 16. **PowerUpManager**: Manages the functionality and display of power-ups in the game.  
-
-17. **ActorManager**: Handles the lifecycle and interactions of various game actors, such as friendly and enemy planes.  
-
-18. **GameInputHandler**: Processes keyboard input to control the player's plane and fire projectiles.  
-
-19. **ConfettiEffectManager**: Generates celebratory confetti effects during win states.  
-
-20. **ExplosionEffect**: Generates animated explosion effects with expanding, fading, and moving particles, enhancing the game's visual dynamics. 
-
+Location: `com.example.demo.ui.PowerUpManager`
+17. **GameInputHandler**: Processes keyboard input to control the player's plane and fire projectiles.  
+Location:  `com.example.demo.controller.GameInputHandler`
+18. **ConfettiEffectManager**: Generates celebratory confetti effects during win states.  
+Location: `com.example.demo.ui.ConfettiEffectManager`
+19. **ExplosionEffect**: Generates animated explosion effects with expanding, fading, and moving particles, enhancing the game's visual dynamics. 
+Location: `com.example.demo.ui.ExplosionEffect`
 
 ---
 
