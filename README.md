@@ -13,7 +13,7 @@ Daliya Safdar Ahmed
 1. *Install IntelliJ IDEA Community* if not already installed.  
 2. *Open Project* in IntelliJ via `File > Open...`.  
 3. *Load Maven Dependencies*: IntelliJ auto-loads dependencies. If not, click the Maven tool window and refresh.  
-4. *Set Correct JDK*: Ensure the project uses a compatible JDK (Java 19+).  
+4. *Set Correct JDK*: Ensure the project uses a compatible Java version 19 for this project.  
 5. *Build Project*: Select `Build > Build Project`.  
 6. *Run Application*: Click the green Run button or press `Shift + F10`.  
 7. *Play the Game*: The game window will open. Enjoy!  
