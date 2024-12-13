@@ -87,12 +87,19 @@ Daliya Safdar Ahmed
 ## New Java Classes
 
 1. **FullScreenHandler**: Resizes the stage when the game opens for better screen handling.  
+      Location: com.example.demo.ui.FullScreenHandler
 2. **PafPlane**: Specialized enemy plane inspired by the Pakistani Air Force (Level 3).  
+      Location: com.example.demo.actors.l3enemies.PafPlane
 3. **PafPlanePool**: Implements object pooling for PAF planes.  
-4. **BlueJet**: Enemy plane in Level Four with vertical movement and projectile firing.  
+      Location: com.example.demo.actors.l3enemies.PafPlanePool
+4. **BlueJet**: Enemy plane in Level Four with vertical movement and projectile firing. 
+      Location: com.example.demo.actors.l4enemies.BlueJet 
 5. **GreenJet**: Similar to BlueJet but with unique behaviors.  
-6. **WhiteJet**: Level Four enemy with random projectile firing rates.  
+      Location: com.example.demo.actors.l4enemies.GreenJet
+6. **WhiteJet**: Level Four enemy with random projectile firing rates. 
+      Location: com.example.demo.actors.l4enemies.WhiteJet 
 7. **L4EnemyFactory**: Manages enemy logic in Level Four.  
+
 8. **MainMenu**: Handles the main menu interface with dynamic buttons.  
 9. **Level Banners**: Manages GIF animations at the start of each level.  
 10. **Level View**: Implements unique UI elements for Levels 3 and 4.  
@@ -104,6 +111,7 @@ Daliya Safdar Ahmed
 16. **ActorManager**: Centralizes actor management and interactions.  
 17. **GameInputHandler**: Processes keyboard input for the user's plane.  
 18. **ConfettiEffectManager**: Creates celebratory confetti animations.  
+19. **ExplosionEffect**: Generates animated explosion effects with expanding, fading, and moving particles, enhancing the game's visual dynamics.
 
 ---
 
