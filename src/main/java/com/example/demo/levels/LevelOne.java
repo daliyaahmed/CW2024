@@ -75,6 +75,15 @@ public class LevelOne extends LevelParent {
 
 			System.out.println("Changing to Level 2");
 			try {
+				// Clear all actors
+				enemyUnits.clear();
+				enemyProjectiles.clear();
+				userProjectiles.clear();
+				//friendlyUnits.removeIf(actor -> !(actor instanceof UserPlane));
+
+				// Reset collision state
+				collision.removeDestroyedActors(enemyUnits);
+				collision.removeDestroyedActors(enemyProjectiles);
 				LevelParent nextLevel = new LevelTwo(getScreenHeight(), getScreenWidth(), getStage());
 				getStage().setScene(nextLevel.initializeScene());
 				nextLevel.startGame();

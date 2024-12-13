@@ -297,6 +297,7 @@ public abstract class LevelParent  {
 	 * handling collisions, and checking game state.
 	 */
 	public void updateScene() {
+		System.out.println("Before updateScene: User health = " + user.getHealth());
 		spawnEnemyUnits();
 		// Add PowerUp button and counter to the root
 		levelViewLevelThree.addPowerUpElementsToRoot();
@@ -314,6 +315,7 @@ public abstract class LevelParent  {
 		updateKillCount();
 		updateLevelView();
 		checkIfGameOver();
+		System.out.println("After updateScene: User health = " + user.getHealth());
 	}
 	/**
 	 * Initializes the timeline for the game loop.
@@ -464,8 +466,8 @@ public abstract class LevelParent  {
 	protected void loseGame() {
 		timeline.stop();
 		levelView.showGameOverImage();
-		backgroundSound.stop();
-		loseSound.play();
+
+
 
 		// Generate an explosion effect at the center of the screen
 		ExplosionEffect explosionEffect = new ExplosionEffect(root);

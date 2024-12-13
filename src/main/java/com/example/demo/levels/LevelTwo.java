@@ -79,6 +79,10 @@ public class LevelTwo extends LevelParent {
 
 			System.out.println("change to level 3");
 			try {
+				// Clear all actors
+				enemyUnits.clear();
+				enemyProjectiles.clear();
+				userProjectiles.clear();
 				LevelParent nextLevel = new LevelThree(getScreenHeight(), getScreenWidth(), getStage());
 				getStage().setScene(nextLevel.initializeScene());
 				nextLevel.startGame();
