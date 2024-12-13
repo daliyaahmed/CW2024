@@ -66,7 +66,7 @@ Daliya Safdar Ahmed
 
 ## Implemented but Not Working Properly
 
-1. *Banners Overlap with Bullets and Planes*.  
+1. *Banners and pause button overlap with Bullets and Planes*.  
 2. *Countdown Timer Issue*: In Level Four, the timer continues even when the game is paused.  
 3. *Lose Game Sound*: Initially caused issues with user health and was removed.  
 4. *Level 3 Experimental Design*:  
