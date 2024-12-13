@@ -41,18 +41,29 @@ https://github.com/daliyaahmed/CW2024
 18. *Arcade-like Font*: I added Astroz font for my whole game. It amplified my whole gaming experience.
 19. *Added Sounds*: I added an upbeat background sound and when user fires a projectile, I added a cool shooting sound. 
 20. *Added Confetti in Win Image*: Once the winImage is displayed, the circles meaning the confetti will drop from the top of the screen.
+21. *Added Sounds in Win Image*: I added a huge crowd clapping sound to celebrate you winning the game.
+22. *Added multiple explosions in Lose Game*: Once the loseGame is displayed, in multiple places in the screen there will be 10 explosions taking place.
 
 
 
 ## Implemented but Not Working Properly: 
 1. Banners overlap with the bullets and planes 
 2. In level four, when the pause button is pressed, the time remaining doesn't stop other than that it works. 
+3. I added a loseGame sound , but it ended up messing with my user's health, so i removed it.
+4. I added a Level 3 in which bombs and powerups would be falling from the sky and tornado was happening at the same time. The goal of that level was to collect 5 power-ups like a mini game break, but it was deemed unsuccessful due to the immense issues I experienced with it .
+   
+
 
 ## Features Not Implemented: 
-1. *User's Shield*: User's shield will help protect the user form the enemies' projectiles.
+1. *User's Shield*: User's shield will help protect the user form the enemies' projectiles. 
+Not Implemented due to time constraints.
 2. *Explosion* : When user plane and enemy plane collide, an explosion will occur between them. 
-3. *Add Sound for winGame and loseGame* : After losing the game, there would have been sounds that come to celebrate.
-
+Not Implemented due to time constraints
+3. *Tornado* : I tried adding a tornado using circles, but I was receiving heap out of storage errors, so I removed it.
+4. *Player Designed Bosses*: Let players design their own bosses using resources collected in the game.
+5. *Black Hole Power Up*: A power-up that creates a black hole, sucking in enemies, projectiles, and maybe even the player if they’re too close.
+6. *Hidden Level Triggers*:Add secret actions to unlock hidden levels or bosses: Destroy a certain number of objects in a specific pattern and find a hidden symbol on the battlefield.
+7. *Zombie Mode* :Add a zombie apocalypse version where destroyed planes rise again as zombie planes with erratic movements and attacks.
 
  
 
@@ -237,4 +248,3 @@ Shield Image issues causing error boxes to show on the screen, even after changi
 Solution: After a long time of debugging the issues, I fixed them .
 Transitioning from level one to level two, once the level one was done , the errors would show up and my IDE would crash fully.
 Solution: Added a flag to check if levelTransition happened to make sure that it doesn't run the same loop a thousand times.
-
