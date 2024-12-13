@@ -27,7 +27,7 @@ Daliya Safdar Ahmed
 ## Implemented and Working Properly
 
 1. *Added Property Change Listener*: Removed `Observer` class and added `PropertyChangeListener` to carry out all the tasks that `Observer` class used to do.  
-2. *Attached Shield to Boss*: Attached the shield image to the boss plane.  
+2. *Attached Shield to Boss*: Attached is the shield image to the boss plane.  
 3. *Added Main Menu*: Introduced a main menu with interactive buttons:  
    - `Play` button: Starts Level One.  
    - `Guide To Play`: Displays the guide window.  
@@ -48,16 +48,19 @@ Daliya Safdar Ahmed
     - Players must destroy 4 of each type within 60 seconds.  
     - Increased user health to 10 for this challenging level.  
 14. *Added Countdown Timer*: Displays a neon-styled countdown timer for Level Four (does not pause).  
-15. *Added Level 4 Enemy Factory*: Handles enemy logic in Level Four.  
+15. *Added Level 4 Enemy Factory*: Handles enemy logic through the factory method as one of the design patterns in Level Four.  
 16. *Added Restart Window*: Displays options to restart from any level or quit the game, featuring randomized blood splatter effects.  
 17. *Blood Splatter Effects*: Randomized patterns for added visual variety.  
-18. *Arcade-like Font*: Implemented \"Astroz\" font for an authentic retro gaming feel.  
+18. *Arcade-like Font*: Implemented "Astroz" font for an authentic retro gaming feel.  
 19. *Added Sounds*:  
     - Background music.  
     - Shooting sound effects.  
-20. *Confetti in Win State*: Confetti falls from the top of the screen upon victory.  
-21. *Victory Sounds*: Introduced clapping sounds to celebrate wins.  
-22. *Multiple Explosions in Lose State*: Displays 10 explosions randomly across the screen when the player loses.  
+    - Win sound effects
+20. *Confetti in Win State*: Confetti falls from the top of the screen upon victory.  Side note,the confetti was inserted through coding them in, rather than using a video for it.
+21. *Victory Sounds*: Introduced celebratory sounds to celebrate wins.  
+22. *Multiple Explosions in Lose State*: Displays 10 explosions randomly across the screen when the player loses.  Side note, the explosions was inserted through coding them in, rather than using a video for it.
+23. *Added a Separate Input Handler**: Refactored Input Handler logic from `LevelParent` into a dedicated `GameInputHandler` class, improving code organization.
+
 
 ---
 
@@ -86,32 +89,48 @@ Daliya Safdar Ahmed
 
 ## New Java Classes
 
-1. **FullScreenHandler**: Resizes the stage when the game opens for better screen handling.  
-      Location: com.example.demo.ui.FullScreenHandler
-2. **PafPlane**: Specialized enemy plane inspired by the Pakistani Air Force (Level 3).  
-      Location: com.example.demo.actors.l3enemies.PafPlane
-3. **PafPlanePool**: Implements object pooling for PAF planes.  
-      Location: com.example.demo.actors.l3enemies.PafPlanePool
-4. **BlueJet**: Enemy plane in Level Four with vertical movement and projectile firing. 
-      Location: com.example.demo.actors.l4enemies.BlueJet 
-5. **GreenJet**: Similar to BlueJet but with unique behaviors.  
-      Location: com.example.demo.actors.l4enemies.GreenJet
-6. **WhiteJet**: Level Four enemy with random projectile firing rates. 
-      Location: com.example.demo.actors.l4enemies.WhiteJet 
-7. **L4EnemyFactory**: Manages enemy logic in Level Four.  
+1. **FullScreenHandler**: 
+This class helps resize the stage the second the game opens, helping the game have a singular class dealing with the screen height and width logic.  
 
-8. **MainMenu**: Handles the main menu interface with dynamic buttons.  
-9. **Level Banners**: Manages GIF animations at the start of each level.  
-10. **Level View**: Implements unique UI elements for Levels 3 and 4.  
-11. **PauseMenuState**: Manages pause menu interactions.  
-12. **RestartWindow**: Displays game-over options and visual effects.  
-13. **Collision**: Handles all collision logic.  
-14. **Projectile Classes**: Includes specialized projectiles for each enemy type.  
-15. **PowerUpManager**: Manages activation and deactivation of power-ups.  
-16. **ActorManager**: Centralizes actor management and interactions.  
-17. **GameInputHandler**: Processes keyboard input for the user's plane.  
-18. **ConfettiEffectManager**: Creates celebratory confetti animations.  
-19. **ExplosionEffect**: Generates animated explosion effects with expanding, fading, and moving particles, enhancing the game's visual dynamics.
+2. **PafPlane**: 
+Represents a specialized enemy plane in Level 3 of the game, inspired by the Pakistani Air Force.  
+
+3. **PafPlanePool**: Implements an object pool for managing PAF plane instances, optimizing performance and memory usage.  
+
+4. **BlueJet**: Represents a Level Four enemy plane with vertical movement and projectile firing.  
+
+5. **GreenJet**: Similar to BlueJet, featuring vertical movement and unique projectile firing. 
+ 
+6. **WhiteJet**: Represents a Level Four enemy plane with random firing rates and dynamic behavior.  
+
+7. **L4EnemyFactory**: Manages the creation and behavior of enemies for Level Four.  
+
+8. **MainMenu**: Manages the main menu interface with interactive buttons for starting, quitting, and displaying the game guide.  
+
+9. **LevelOneBanner**: Handles the display of the level one banner with smooth animations at the start of each level. 
+   
+10. **LevelTwoBanner**: Handles the display of the level two banner with smooth animations at the start of each level. 
+ 
+11. **Level View**: Manages UI elements and gameplay-specific features for Levels Three and Four. 
+ 
+12. **PauseMenuState**: Handles the pause menu functionality, including options to resume or quit the game.  
+
+13. **RestartWindow**: Displays options to restart specific levels or quit the game with a blood splatter background effect. 
+ 
+14. **Collision**: Handles collision detection and resolution between game entities like planes, projectiles, and enemies.  
+
+15. **Projectile Classes**: Specialized classes for BlueJet, GreenJet, WhiteJet, and PAF projectiles, each with unique behaviors.  
+
+16. **PowerUpManager**: Manages the functionality and display of power-ups in the game.  
+
+17. **ActorManager**: Handles the lifecycle and interactions of various game actors, such as friendly and enemy planes.  
+
+18. **GameInputHandler**: Processes keyboard input to control the player's plane and fire projectiles.  
+
+19. **ConfettiEffectManager**: Generates celebratory confetti effects during win states.  
+
+20. **ExplosionEffect**: Generates animated explosion effects with expanding, fading, and moving particles, enhancing the game's visual dynamics. 
+
 
 ---
 
@@ -123,7 +142,8 @@ Daliya Safdar Ahmed
    - Introduced shield mechanics with cooldowns.  
    - Adjusted health and added logging for better debugging.  
 4. **l1EnemyPlane**:  
-   - Reduced image height from 150 to 50 for better precision.  
+   - Reduced image height from 150 to 50 for better precision. 
+   - Refactored the class's name from EnemyPlane to l1EnemyPlane. 
 5. **FighterPlane**:  
    - Added a boolean flag to prevent destruction if already destroyed.  
    - Adjusted health comparison logic to fix bugs.  
@@ -138,10 +158,11 @@ Daliya Safdar Ahmed
    - Added looping background sound.  
 9. **LevelParent**:  
    - Added confetti for the win state.  
-   - Refactored collision logic to a new `Collision` class.  
+   - Refactored collision logic to a new `Collision` class.
+   - Refactored input handler logic to a new `GameInputHandler` class.  
 10. **LevelTwo**:  
     - Fixed transition issues.  
-    - Added shields and initialization for new elements.  
+    - Added shield and initialization for new elements.  
 11. **Projectile Classes**: Adjusted image sizes and cropped unnecessary whitespace.  
 12. **GameOverImage & WinImage**: Updated display positions for better visuals.  
 
@@ -159,5 +180,6 @@ Daliya Safdar Ahmed
 ---
 
 ## Final Notes
-This README provides an extensive overview of the game, including implemented features, unresolved issues, and future possibilities. Follow the instructions above to enjoy the game!  
+I hope you like my game!
+Enjoyyy :) 
 
