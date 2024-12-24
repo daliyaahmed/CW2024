@@ -189,3 +189,7 @@ Location: `com.example.demo.ui.ExplosionEffect`
 I hope you like my game!
 Enjoyyy :) 
 
+## Link to my Google Document
+have fun seeing my informal code documentation struggles
+https://docs.google.com/document/d/14ylfzl5WZVGi5F9_PIaNzxW6brCkY5xuWoTak5sMhh4/edit?usp=sharing
+i hope you see my struggles :(
